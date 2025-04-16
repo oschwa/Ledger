@@ -1,0 +1,4 @@
+name: Ledger
+version: '1.0-SNAPSHOT'
+main: oschwa.ledger.Ledger
+api-version: '1.21'
