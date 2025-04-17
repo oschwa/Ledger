@@ -2,7 +2,7 @@ package oschwa.ledger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class Ledger extends JavaPlugin {
+public class Ledger extends JavaPlugin {
 
     @Override
     public void onEnable() {
