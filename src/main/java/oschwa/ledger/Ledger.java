@@ -1,6 +1,5 @@
 package oschwa.ledger;
 
-import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 import oschwa.ledger.commands.LedgerCommand;
 
