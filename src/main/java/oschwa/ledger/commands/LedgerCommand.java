@@ -24,8 +24,16 @@ public class LedgerCommand implements CommandExecutor {
             return false;
         }
 
-        if (command.getName().equalsIgnoreCase("ledger")) {
-            player.sendMessage(manual);
+        if (!command.getName().equalsIgnoreCase("ledger")) {
+            return false;
+        }
+
+        else {
+            if (strings.length == 0) {
+                commandSender.sendMessage(manual);
+            } else if (strings[0].equalsIgnoreCase("new")) {
+                commandSender.sendMessage("New Ledger created");
+            }
         }
 
         return true;

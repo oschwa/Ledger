@@ -1,15 +1,17 @@
-package commands;
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
+package oschwa.ledger.commands;
 import org.bukkit.command.Command;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import oschwa.ledger.Ledger;
 import oschwa.ledger.commands.LedgerCommand;
+import oschwa.ledger.registries.LedgerGroupRegistry;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -18,25 +20,36 @@ public class LedgerCommandTest {
 
     private LedgerCommand command;
     private String[] testManual;
+    @Mock
+    LedgerGroupRegistry ledgerGroupRegistry;
+    @Mock
+    Player player;
+    @Mock
+    Command mockCommand;
 
     @BeforeEach
     public void setUp() {
         command = new LedgerCommand();
-        testManual = new String[] {
-                "/ledger -> manual page"
-        };
+        player = Mockito.mock(Player.class);
+        mockCommand = Mockito.mock(Command.class);
+
+        when(mockCommand.getName()).thenReturn("ledger");
     }
 
     @Test
     public void manCommandOutputsMessageForPlayerTest() {
-        Player player = Mockito.mock(Player.class);
-
-        Command mockCommand = Mockito.mock(Command.class);
-        when(mockCommand.getName()).thenReturn("ledger");
-
         command.onCommand(player, mockCommand, "ledger", new String[]{});
+
+        testManual = new String[] {
+                "/ledger -> manual page"
+        };
 
         verify(player).sendMessage(testManual);
     }
 
+    @Test
+    public void newCommandOutputsMessageForPlayerTest() {
+        command.onCommand(player, mockCommand, "ledger", new String[]{"new"});
+        verify(player).sendMessage("New Ledger created");
+    }
 }
