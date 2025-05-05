@@ -24,7 +24,7 @@ public class LedgerGroup {
             members.put(player.getUniqueId(), player);
             ++size;
         } else {
-            throw new MemberExistsException("Member is already assigned to this Ledger");
+            throw new MemberExistsException(player.getName() + " is already assigned to this Ledger");
         }
     }
 
@@ -33,7 +33,7 @@ public class LedgerGroup {
             members.remove(uuid);
             --size;
         } else {
-            throw new MemberDoesNotExistException("Player is not a Member of this Ledger");
+            throw new MemberDoesNotExistException("Player is not a member of this Ledger");
         }
     }
 
