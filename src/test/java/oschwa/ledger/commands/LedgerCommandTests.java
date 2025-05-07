@@ -1,22 +1,19 @@
 package oschwa.ledger.commands;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import oschwa.ledger.Ledger;
-import oschwa.ledger.commands.LedgerCommand;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class LedgerCommandTest {
+public class LedgerCommandTests {
 
     private LedgerCommand command;
     private String[] testManual;

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import oschwa.ledger.Ledger;
@@ -21,15 +22,17 @@ public class LedgerGroupRegistryTests {
 
     private LedgerGroupRegistry ledgerGroupRegistry;
 
+    @Mock
+    private Player player;
+
     @BeforeEach
     public void setUp() {
         ledgerGroupRegistry = new LedgerGroupRegistry();
+        player = Mockito.mock(Player.class);
     }
 
     @Test
     public void makesNewLedgerGroupTest() {
-        Player player = Mockito.mock(Player.class);
-
         ledgerGroupRegistry.addGroup(player);
 
         Assertions.assertNotNull(ledgerGroupRegistry.getGroup(player));
@@ -38,8 +41,6 @@ public class LedgerGroupRegistryTests {
 
     @Test
     public void noNewLedgerGroupForExistingEntryTest() {
-        Player player = Mockito.mock(Player.class);
-
         ledgerGroupRegistry.addGroup(player);
 
         assertThrows(GroupExistsException.class, () -> ledgerGroupRegistry.addGroup(player));
@@ -48,8 +49,6 @@ public class LedgerGroupRegistryTests {
 
     @Test
     public void removesLedgerGroupTest() {
-        Player player = Mockito.mock(Player.class);
-
         ledgerGroupRegistry.addGroup(player);
         ledgerGroupRegistry.removeGroup(player);
 
@@ -59,8 +58,6 @@ public class LedgerGroupRegistryTests {
 
     @Test
     public void failsRemovingNonExistingLedgerGroupTest() {
-        Player player = Mockito.mock(Player.class);
-
         assertThrows(GroupDoesNotExistException.class, () -> ledgerGroupRegistry.removeGroup(player));
         assertNull(ledgerGroupRegistry.getGroup(player));
         assertEquals(0, ledgerGroupRegistry.getSize());

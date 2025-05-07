@@ -20,22 +20,25 @@ import static org.mockito.Mockito.when;
 public class LedgerGroupTest {
 
     @Mock
-    Player player;
+    private Player player;
     @Mock
-    Player otherPlayer;
+    private Player otherPlayer;
+
+    private UUID uuid;
+
+    private LedgerGroup ledgerGroup;
 
     @BeforeEach
     public void setUp() {
         player = Mockito.mock(Player.class);
         otherPlayer = Mockito.mock(Player.class);
+        ledgerGroup = new LedgerGroup(player);
+        uuid = UUID.randomUUID();
     }
 
     @Test
     public void ledgerGroupWithOneMemberTest() {
-        UUID uuid = UUID.randomUUID();
         when(player.getUniqueId()).thenReturn(uuid);
-
-        LedgerGroup ledgerGroup = new LedgerGroup(player);
 
         Assertions.assertNotNull(ledgerGroup.getOwner());
         Assertions.assertEquals(uuid, ledgerGroup.getOwner().getUniqueId());
@@ -43,10 +46,8 @@ public class LedgerGroupTest {
 
     @Test
     public void ledgerGroupAddMemberTest() {
-        UUID uuid = UUID.randomUUID();
         when(otherPlayer.getUniqueId()).thenReturn(uuid);
 
-        LedgerGroup ledgerGroup = new LedgerGroup(player);
         ledgerGroup.addMember(otherPlayer);
 
         Assertions.assertNotNull(ledgerGroup.getMember(uuid));
@@ -55,10 +56,8 @@ public class LedgerGroupTest {
 
     @Test
     public void ledgerGroupDoesNotAddExistingMemberTest() {
-        UUID uuid = UUID.randomUUID();
         when(otherPlayer.getUniqueId()).thenReturn(uuid);
 
-        LedgerGroup ledgerGroup = new LedgerGroup(player);
         ledgerGroup.addMember(otherPlayer);
 
         assertThrows(MemberExistsException.class, () -> ledgerGroup.addMember(otherPlayer));
@@ -67,10 +66,8 @@ public class LedgerGroupTest {
 
     @Test
     public void ledgerGroupRemovesMemberTest() {
-        UUID uuid = UUID.randomUUID();
         when(otherPlayer.getUniqueId()).thenReturn(uuid);
 
-        LedgerGroup ledgerGroup = new LedgerGroup(player);
         ledgerGroup.addMember(otherPlayer);
 
         ledgerGroup.removeMember(uuid);
@@ -81,10 +78,6 @@ public class LedgerGroupTest {
 
     @Test
     public void ledgerGroupFailsRemovingNonExistingMemberTest() {
-        UUID uuid = UUID.randomUUID();
-
-        LedgerGroup ledgerGroup = new LedgerGroup(player);
-
         assertThrows(MemberDoesNotExistException.class, () -> ledgerGroup.removeMember(uuid));
     }
 
