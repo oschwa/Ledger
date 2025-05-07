@@ -2,13 +2,15 @@ package oschwa.ledger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import oschwa.ledger.commands.LedgerCommand;
+import oschwa.ledger.registries.LedgerGroupRegistry;
 
 public class Ledger extends JavaPlugin {
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        this.getCommand("ledger").setExecutor(new LedgerCommand());
+        LedgerGroupRegistry ledgerGroupRegistry = new LedgerGroupRegistry();
+        this.getCommand("ledger").setExecutor(new LedgerCommand(ledgerGroupRegistry));
 
     }
 

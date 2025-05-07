@@ -21,18 +21,21 @@ public class LedgerGroupRegistry {
     }
 
     public void addGroup(Player player) throws GroupExistsException {
-        if (ledgerGroupMap.containsKey(player)) throw new GroupExistsException(player.getName() + " already has assigned Ledger");
-        ledgerGroupMap.put(player, new LedgerGroup(player));
+        if (ledgerGroupMap.containsKey(player)) throw new GroupExistsException(player.getName()
+                + " already has assigned Ledger");
+        else ledgerGroupMap.put(player, new LedgerGroup(player));
     }
 
     public void removeGroup(Player player) throws GroupDoesNotExistException {
         if (!ledgerGroupMap.containsKey(player)) throw new GroupDoesNotExistException(player.getName() +
                 " does not have a registered Ledger");
-        ledgerGroupMap.remove(player);
+        else ledgerGroupMap.remove(player);
     }
 
     public LedgerGroup getGroup(Player player) {
-        return ledgerGroupMap.get(player);
+        if (!ledgerGroupMap.containsKey(player)) throw new GroupDoesNotExistException(player.getName() +
+                " does not have a registered Ledger");
+        else return ledgerGroupMap.get(player);
     }
 
     public int getSize() {

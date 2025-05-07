@@ -16,6 +16,7 @@ import oschwa.ledger.exceptions.MemberExistsException;
 import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class LedgerGroupRegistryTests {
@@ -52,14 +53,15 @@ public class LedgerGroupRegistryTests {
         ledgerGroupRegistry.addGroup(player);
         ledgerGroupRegistry.removeGroup(player);
 
-        assertNull(ledgerGroupRegistry.getGroup(player));
+        assertFalse(ledgerGroupRegistry.containsGroup(player));
         assertEquals(0, ledgerGroupRegistry.getSize());
     }
 
     @Test
     public void failsRemovingNonExistingLedgerGroupTest() {
+        when(player.getName()).thenReturn("test");
         assertThrows(GroupDoesNotExistException.class, () -> ledgerGroupRegistry.removeGroup(player));
-        assertNull(ledgerGroupRegistry.getGroup(player));
+        assertFalse(ledgerGroupRegistry.containsGroup(player));
         assertEquals(0, ledgerGroupRegistry.getSize());
     }
 }
