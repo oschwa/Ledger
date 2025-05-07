@@ -82,7 +82,6 @@ public class LedgerGroupTest {
     @Test
     public void ledgerGroupFailsRemovingNonExistingMemberTest() {
         UUID uuid = UUID.randomUUID();
-        when(otherPlayer.getUniqueId()).thenReturn(uuid);
 
         LedgerGroup ledgerGroup = new LedgerGroup(player);
 
