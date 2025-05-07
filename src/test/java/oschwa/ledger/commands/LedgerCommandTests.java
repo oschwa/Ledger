@@ -1,14 +1,19 @@
 package oschwa.ledger.commands;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import oschwa.ledger.exceptions.GroupDoesNotExistException;
+import oschwa.ledger.exceptions.GroupExistsException;
+import oschwa.ledger.player.LedgerGroup;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,7 +31,8 @@ public class LedgerCommandTests {
 
     @BeforeEach
     public void setUp() {
-        command = new LedgerCommand();
+        ledgerGroupRegistry = new LedgerGroupRegistry();
+        command = new LedgerCommand(ledgerGroupRegistry);
         player = Mockito.mock(Player.class);
         mockCommand = Mockito.mock(Command.class);
 
@@ -48,5 +54,48 @@ public class LedgerCommandTests {
     public void newCommandOutputsMessageForPlayerTest() {
         command.onCommand(player, mockCommand, "ledger", new String[]{"new"});
         verify(player).sendMessage("New Ledger created");
+    }
+
+    @Test
+    public void newCommandMakesNewLedgerGroupTest() {
+        command.onCommand(player, mockCommand, "ledger", new String[]{"new"});
+        Assertions.assertTrue(ledgerGroupRegistry.containsGroup(player));
+    }
+
+    @Test
+    public void newCommandFailsIfLedgerGroupExistsTest() {
+        ledgerGroupRegistry.addGroup(player);
+        LedgerGroup ledgerGroup = ledgerGroupRegistry.getGroup(player);
+
+        when(player.getName()).thenReturn("test");
+
+        assertThrows(GroupExistsException.class, () ->
+                command.onCommand(player, mockCommand, "ledger", new String[]{"new"}));
+        assertEquals(ledgerGroup, ledgerGroupRegistry.getGroup(player));
+    }
+
+    @Test
+    public void scrapCommandSendsPlayerMessageTest() {
+        ledgerGroupRegistry.addGroup(player);
+
+        command.onCommand(player, mockCommand, "ledger", new String[]{"scrap"});
+
+        verify(player).sendMessage("Ledger scrapped");
+    }
+
+    @Test
+    public void scrapCommandRemovesLedgerGroupTest() {
+        ledgerGroupRegistry.addGroup(player);
+
+        command.onCommand(player, mockCommand, "ledger", new String[]{"scrap"});
+
+        assertFalse(ledgerGroupRegistry.containsGroup(player));
+    }
+
+    @Test
+    public void scrapCommandFailsRemovingNonExistingLedgerGroupTest() {
+        when(player.getName()).thenReturn("test");
+        assertThrows(GroupDoesNotExistException.class, () ->
+                command.onCommand(player, mockCommand, "ledger", new String[]{"scrap"}));
     }
 }

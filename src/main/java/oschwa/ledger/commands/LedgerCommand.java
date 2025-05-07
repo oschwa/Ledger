@@ -4,12 +4,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import oschwa.ledger.registries.LedgerGroupRegistry;
 
 public class LedgerCommand implements CommandExecutor {
 
     private String[] manual;
+    private LedgerGroupRegistry ledgerGroupRegistry;
 
-    public LedgerCommand() {
+    public LedgerCommand(LedgerGroupRegistry ledgerGroupRegistry) {
+        this.ledgerGroupRegistry = ledgerGroupRegistry;
         manual = new String[] {
                 "/ledger -> manual page"
         };
@@ -32,7 +35,11 @@ public class LedgerCommand implements CommandExecutor {
             if (strings.length == 0) {
                 commandSender.sendMessage(manual);
             } else if (strings[0].equalsIgnoreCase("new")) {
+                ledgerGroupRegistry.addGroup(player);
                 commandSender.sendMessage("New Ledger created");
+            } else if (strings[0].equalsIgnoreCase("scrap")) {
+                ledgerGroupRegistry.removeGroup(player);
+                commandSender.sendMessage("Ledger scrapped");
             }
         }
 
