@@ -17,12 +17,12 @@ public class LedgerCommandTests {
 
     private LedgerCommand command;
     private String[] testManual;
+
+    private LedgerGroupRegistry ledgerGroupRegistry;
     @Mock
-    LedgerGroupRegistry ledgerGroupRegistry;
+    private Player player;
     @Mock
-    Player player;
-    @Mock
-    Command mockCommand;
+    private Command mockCommand;
 
     @BeforeEach
     public void setUp() {
