@@ -13,6 +13,8 @@ import oschwa.ledger.exceptions.GroupExistsException;
 import oschwa.ledger.player.LedgerGroup;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -97,5 +99,49 @@ public class LedgerCommandTests {
         when(player.getName()).thenReturn("test");
         assertThrows(GroupDoesNotExistException.class, () ->
                 command.onCommand(player, mockCommand, "ledger", new String[]{"scrap"}));
+    }
+
+    @Test
+    public void membersCommandShowsOwnerTest() {
+        String[] members = {
+                "Members of owner's Ledger:",
+                "owner"
+        };
+        when(player.getName()).thenReturn("owner");
+
+        ledgerGroupRegistry.addGroup(player);
+        command.onCommand(player, mockCommand, "ledger", new String[]{"members"});
+
+        verify(player).sendMessage(members);
+    }
+
+    @Test
+    public void membersCommandShowsAllMembersTest() {
+        String[] members = {
+                "Members of owner's Ledger:",
+                "owner",
+                "player1",
+                "player2"
+        };
+
+        when(player.getName()).thenReturn("owner");
+
+        Player player1 = Mockito.mock(Player.class);
+        when(player1.getName()).thenReturn("player1");
+        when(player1.getUniqueId()).thenReturn(UUID.randomUUID());
+
+        Player player2 = Mockito.mock(Player.class);
+        when(player2.getName()).thenReturn("player2");
+        when(player2.getUniqueId()).thenReturn(UUID.randomUUID());
+
+        ledgerGroupRegistry.addGroup(player);
+
+        LedgerGroup ownerGroup = ledgerGroupRegistry.getGroup(player);
+        ownerGroup.addMember(player1);
+        ownerGroup.addMember(player2);
+
+        command.onCommand(player, mockCommand, "ledger", new String[]{"members"});
+
+        verify(player).sendMessage(members);
     }
 }

@@ -40,6 +40,8 @@ public class LedgerCommand implements CommandExecutor {
             } else if (strings[0].equalsIgnoreCase("scrap")) {
                 ledgerGroupRegistry.removeGroup(player);
                 commandSender.sendMessage("Ledger scrapped");
+            } else if (strings[0].equalsIgnoreCase("members")) {
+                commandSender.sendMessage(ledgerGroupRegistry.getGroup(player).getMembersList());
             }
         }
 
