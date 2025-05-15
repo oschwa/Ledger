@@ -144,4 +144,11 @@ public class LedgerCommandTests {
 
         verify(player).sendMessage(members);
     }
+
+    @Test
+    public void membersCommandFailsToShowNonExistentLedgerTest() {
+        when(player.getName()).thenReturn("owner");
+        assertThrows(GroupDoesNotExistException.class, () ->
+                command.onCommand(player, mockCommand, "ledger", new String[]{"members"}));
+    }
 }
