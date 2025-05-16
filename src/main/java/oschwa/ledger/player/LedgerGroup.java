@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import oschwa.ledger.exceptions.MemberDoesNotExistException;
 import oschwa.ledger.exceptions.MemberExistsException;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 public class LedgerGroup {
@@ -47,16 +48,18 @@ public class LedgerGroup {
         return size;
     }
 
-    //  TODO: Fix to use streams instead.
     public String[] getMembersList() {
         List<String> membersList = new ArrayList<>();
 
-        membersList.add("Members of " + owner.getName() + "'s Ledger:");
         membersList.add(owner.getName());
 
         for (Player player : members.values()) {
             membersList.add(player.getName());
         }
+
+        Collections.sort(membersList);
+
+        membersList.addFirst("Members of " + owner.getName() + "'s Ledger:");
 
         return membersList.toArray(new String[size]);
     }
