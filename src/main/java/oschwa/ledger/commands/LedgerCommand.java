@@ -14,7 +14,10 @@ public class LedgerCommand implements CommandExecutor {
     public LedgerCommand(LedgerGroupRegistry ledgerGroupRegistry) {
         this.ledgerGroupRegistry = ledgerGroupRegistry;
         manual = new String[] {
-                "/ledger -> manual page"
+                "/ledger -> manual page",
+                "/ledger new -> create a new Ledger",
+                "/ledger scrap -> delete your existing Ledger",
+                "/ledger members -> view names of player in your Ledger"
         };
     }
 

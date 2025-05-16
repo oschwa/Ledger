@@ -46,7 +46,10 @@ public class LedgerCommandTests {
         command.onCommand(player, mockCommand, "ledger", new String[]{});
 
         testManual = new String[] {
-                "/ledger -> manual page"
+                "/ledger -> manual page",
+                "/ledger new -> create a new Ledger",
+                "/ledger scrap -> delete your existing Ledger",
+                "/ledger members -> view names of player in your Ledger"
         };
 
         verify(player).sendMessage(testManual);
