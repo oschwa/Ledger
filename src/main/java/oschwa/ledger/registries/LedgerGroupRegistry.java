@@ -3,10 +3,12 @@ package oschwa.ledger.registries;
 import org.bukkit.entity.Player;
 import oschwa.ledger.exceptions.GroupDoesNotExistException;
 import oschwa.ledger.exceptions.GroupExistsException;
+import oschwa.ledger.exceptions.MemberDoesNotExistException;
 import oschwa.ledger.player.LedgerGroup;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class LedgerGroupRegistry {
 
@@ -36,6 +38,15 @@ public class LedgerGroupRegistry {
         if (!ledgerGroupMap.containsKey(player)) throw new GroupDoesNotExistException(player.getName() +
                 " does not have a registered Ledger");
         else return ledgerGroupMap.get(player);
+    }
+
+    public Player getOwner(UUID uuid) throws MemberDoesNotExistException {
+        for (Map.Entry<Player, LedgerGroup> entry : ledgerGroupMap.entrySet()) {
+            if (entry.getValue().hasMember(uuid)) {
+                return entry.getKey();
+            }
+        }
+        throw new MemberDoesNotExistException("Member does not exist in any registered Ledger");
     }
 
     public int getSize() {

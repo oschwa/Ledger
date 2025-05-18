@@ -37,7 +37,14 @@ public class LedgerGroup {
     }
 
     public Player getMember(UUID uuid) {
+        if (!members.containsKey(uuid)) {
+            throw new MemberDoesNotExistException("Player is not a member of this Ledger");
+        }
         return members.get(uuid);
+    }
+
+    public boolean hasMember(UUID uuid) {
+        return members.containsKey(uuid);
     }
 
     public Player getOwner() {

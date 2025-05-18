@@ -38,21 +38,30 @@ public class LedgerCommand implements CommandExecutor {
         else if (strings[0].equalsIgnoreCase("new"))  addLedgerGroup(player);
         else if (strings[0].equalsIgnoreCase("scrap")) scrapLedgerGroup(player);
         else if (strings[0].equalsIgnoreCase("members")) getLedgerMembers(player);
+        else if (strings[0].equalsIgnoreCase("leave")) leavePlayer(player);
 
         return true;
     }
 
-    public void addLedgerGroup(Player player) {
+    private void leavePlayer(Player player) {
+        Player owner = ledgerGroupRegistry.getOwner(player.getUniqueId());
+        if (owner == null) player.sendMessage("You do not belong to a registered Ledger");
+        else {
+            ledgerGroupRegistry.getGroup(owner).removeMember(player.getUniqueId());
+        }
+    }
+
+    private void addLedgerGroup(Player player) {
         ledgerGroupRegistry.addGroup(player);
         player.sendMessage("New Ledger created");
     }
 
-    public void scrapLedgerGroup(Player player) {
+    private void scrapLedgerGroup(Player player) {
         ledgerGroupRegistry.removeGroup(player);
         player.sendMessage("Ledger scrapped");
     }
 
-    public void getLedgerMembers(Player player) {
+    private void getLedgerMembers(Player player) {
         player.sendMessage(ledgerGroupRegistry.getGroup(player).getMembersList());
     }
 }

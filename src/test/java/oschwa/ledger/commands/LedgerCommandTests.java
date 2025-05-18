@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import oschwa.ledger.exceptions.GroupDoesNotExistException;
 import oschwa.ledger.exceptions.GroupExistsException;
+import oschwa.ledger.exceptions.MemberDoesNotExistException;
 import oschwa.ledger.player.LedgerGroup;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
@@ -153,5 +154,19 @@ public class LedgerCommandTests {
         when(player.getName()).thenReturn("owner");
         assertThrows(GroupDoesNotExistException.class, () ->
                 command.onCommand(player, mockCommand, "ledger", new String[]{"members"}));
+    }
+
+    @Test
+    public void leaveCommandRemovesPlayerFromLedgerTest() {
+        Player player1 = Mockito.mock(Player.class);
+
+        ledgerGroupRegistry.addGroup(player);
+        LedgerGroup ownerGroup = ledgerGroupRegistry.getGroup(player);
+        ownerGroup.addMember(player1);
+
+        command.onCommand(player1, mockCommand, "ledger", new String[]{"leave"});
+
+        assertThrows(MemberDoesNotExistException.class, () ->
+                ownerGroup.getMember(player1.getUniqueId()));
     }
 }
