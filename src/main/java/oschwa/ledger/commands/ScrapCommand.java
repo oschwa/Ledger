@@ -1,5 +1,6 @@
 package oschwa.ledger.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +21,8 @@ public class ScrapCommand implements CommandExecutor {
         if (!(commandSender instanceof Player)) return false;
 
         ledgerGroupRegistry.removeGroup((Player)commandSender);
+
+        commandSender.sendMessage("Ledger scrapped!");
 
         return true;
     }

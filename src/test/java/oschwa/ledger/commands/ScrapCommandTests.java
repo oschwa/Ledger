@@ -9,6 +9,7 @@ import oschwa.ledger.registries.LedgerGroupRegistry;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class ScrapCommandTests {
 
@@ -38,6 +39,13 @@ public class ScrapCommandTests {
     public void scrapOnNonExistentLedgerGroupThrowsExceptionTest() {
         assertThrows(GroupDoesNotExistException.class,
                 () -> scrapCommand.onCommand(mockPlayer, mockCommand, "scrap", new String[]{}));
+    }
+
+    @Test
+    public void scrapSendsPlayerMessageTest() {
+        ledgerGroupRegistry.addGroup(mockPlayer);
+        scrapCommand.onCommand(mockPlayer, mockCommand, "scrap", new String[]{});
+        verify(mockPlayer).sendMessage("Ledger scrapped!");
     }
 
 }
