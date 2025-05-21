@@ -4,6 +4,18 @@ main: oschwa.ledger.Ledger
 api-version: '1.21'
 author: oschwa
 commands:
-  ledger:
-    description: man page.
-    usage: /ledger
+  new:
+    description: create new Ledger configuration.
+    usage: /ledger new
+  scrap:
+    description: remove existing Ledger configuration.
+    usage: /ledger scrap
+  man:
+    description: view Ledger manual.
+    usage: /ledger man
+  leave:
+    description: leave another player's Ledger.
+    usage: /ledger leave
+  add:
+    description: add another player to your Ledger configuration.
+    usage: /ledger add [player name]
