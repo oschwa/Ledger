@@ -72,7 +72,7 @@ public class LedgerGroupTest {
 
         ledgerGroup.removeMember(uuid);
 
-        assertNull(ledgerGroup.getMember(uuid));
+        assertThrows(MemberDoesNotExistException.class, () -> ledgerGroup.getMember(uuid));
         assertEquals(1, ledgerGroup.getSize());
     }
 
