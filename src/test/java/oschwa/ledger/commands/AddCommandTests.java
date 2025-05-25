@@ -11,8 +11,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AddCommandTests {
 
@@ -54,5 +53,19 @@ public class AddCommandTests {
         ledgerGroupRegistry.addGroup(mockPlayer);
         addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{"playerTwo"});
         assertFalse(ledgerGroupRegistry.getGroup(mockPlayer).hasMember(uuid));
+    }
+
+    @Test
+    public void addCommandSendsMessageTest() {
+        ledgerGroupRegistry.addGroup(mockPlayer);
+
+        Player mockPlayer2 = mock(Player.class);
+        UUID uuid = UUID.randomUUID();
+        when(mockPlayer2.getName()).thenReturn("playerTwo");
+        when(mockServer.getPlayer("playerTwo")).thenReturn(mockPlayer2);
+        when(mockPlayer2.getUniqueId()).thenReturn(uuid);
+
+        addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{"playerTwo"});
+        verify(mockPlayer).sendMessage("playerTwo has been added to your Ledger.");
     }
 }

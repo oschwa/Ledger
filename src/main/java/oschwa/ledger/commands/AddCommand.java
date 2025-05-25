@@ -29,6 +29,8 @@ public class AddCommand implements CommandExecutor {
 
         ledgerGroupRegistry.getGroup((Player)commandSender).addMember(newPlayer);
 
+        commandSender.sendMessage(newPlayer.getName() + " has been added to your Ledger.");
+
         return true;
     }
 }
