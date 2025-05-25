@@ -63,5 +63,6 @@ public class LedgerGroupRegistryTests {
         assertThrows(GroupDoesNotExistException.class, () -> ledgerGroupRegistry.removeGroup(player));
         assertFalse(ledgerGroupRegistry.containsGroup(player));
         assertEquals(0, ledgerGroupRegistry.getSize());
+
     }
 }
