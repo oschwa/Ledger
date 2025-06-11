@@ -8,8 +8,7 @@ import oschwa.ledger.exceptions.GroupExistsException;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class NewCommandTests {
     private NewCommand newCommand;
@@ -35,8 +34,15 @@ public class NewCommandTests {
     @Test
     public void newCommandFailsToAddExistingGroupTest() {
         ledgerGroupRegistry.addGroup(mockPlayer);
-        assertThrows(GroupExistsException.class, () ->
-                newCommand.onCommand(mockPlayer, mockCommand, "new", new String[]{}));
+        newCommand.onCommand(mockPlayer, mockCommand, "new", new String[]{});
         assertEquals(1, ledgerGroupRegistry.getSize());
+    }
+
+    @Test
+    public void newCommandSendsMessageUponExceptionTest() {
+        when(mockPlayer.getName()).thenReturn("test");
+        ledgerGroupRegistry.addGroup(mockPlayer);
+        newCommand.onCommand(mockPlayer, mockCommand, "new", new String[]{});
+        verify(mockPlayer).sendMessage("test already has assigned Ledger");
     }
 }
