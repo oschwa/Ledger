@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import oschwa.ledger.exceptions.GroupExistsException;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
 public class NewCommand implements CommandExecutor {
@@ -18,7 +19,11 @@ public class NewCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
         if (!(commandSender instanceof Player)) return false;
 
-        ledgerGroupRegistry.addGroup((Player)commandSender);
+        try {
+            ledgerGroupRegistry.addGroup((Player)commandSender);
+        } catch (GroupExistsException e) {
+            commandSender.sendMessage(e.getMessage());
+        }
 
         return true;
     }
