@@ -8,8 +8,7 @@ import oschwa.ledger.exceptions.GroupDoesNotExistException;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class ScrapCommandTests {
 
@@ -46,6 +45,13 @@ public class ScrapCommandTests {
         ledgerGroupRegistry.addGroup(mockPlayer);
         scrapCommand.onCommand(mockPlayer, mockCommand, "scrap", new String[]{});
         verify(mockPlayer).sendMessage("Ledger scrapped!");
+    }
+
+    @Test
+    public void scrapSendsMessageForGroupDoesNotExistExceptionTest() {
+        when(mockPlayer.getName()).thenReturn("test");
+        scrapCommand.onCommand(mockPlayer, mockCommand, "scrap", new String[]{});
+        verify(mockPlayer).sendMessage("test does not have a registered Ledger");
     }
 
 }
