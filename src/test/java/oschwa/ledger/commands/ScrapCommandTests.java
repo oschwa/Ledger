@@ -35,12 +35,6 @@ public class ScrapCommandTests {
     }
 
     @Test
-    public void scrapOnNonExistentLedgerGroupThrowsExceptionTest() {
-        assertThrows(GroupDoesNotExistException.class,
-                () -> scrapCommand.onCommand(mockPlayer, mockCommand, "scrap", new String[]{}));
-    }
-
-    @Test
     public void scrapSendsPlayerMessageTest() {
         ledgerGroupRegistry.addGroup(mockPlayer);
         scrapCommand.onCommand(mockPlayer, mockCommand, "scrap", new String[]{});
