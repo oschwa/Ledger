@@ -1,5 +1,6 @@
 package oschwa.ledger.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ public class NewCommandTests {
     @Test
     public void newCommandSendsMessageToPlayerTest() {
         newCommand.onCommand(mockPlayer, mockCommand, "new", new String[]{});
-        verify(mockPlayer).sendMessage("New Ledger created!");
+        verify(mockPlayer).sendMessage(ChatColor.YELLOW + "New Ledger created!");
     }
 
     @Test
@@ -49,6 +50,6 @@ public class NewCommandTests {
         when(mockPlayer.getName()).thenReturn("test");
         ledgerGroupRegistry.addGroup(mockPlayer);
         newCommand.onCommand(mockPlayer, mockCommand, "new", new String[]{});
-        verify(mockPlayer).sendMessage("test already has assigned Ledger");
+        verify(mockPlayer).sendMessage(ChatColor.YELLOW + "test already has an assigned Ledger.");
     }
 }

@@ -1,5 +1,6 @@
 package oschwa.ledger.registries;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import oschwa.ledger.exceptions.GroupDoesNotExistException;
 import oschwa.ledger.exceptions.GroupExistsException;
@@ -23,9 +24,12 @@ public class LedgerGroupRegistry {
     }
 
     public void addGroup(Player player) throws GroupExistsException {
-        if (ledgerGroupMap.containsKey(player)) throw new GroupExistsException(player.getName()
-                + " already has assigned Ledger");
-        else ledgerGroupMap.put(player, new LedgerGroup(player));
+        if (ledgerGroupMap.containsKey(player)) throw new GroupExistsException(ChatColor.YELLOW + player.getName()
+                + " already has an assigned Ledger.");
+        else {
+            ledgerGroupMap.put(player, new LedgerGroup(player));
+            player.sendMessage(ChatColor.YELLOW + "New Ledger created!");
+        }
     }
 
     public void removeGroup(Player player) throws GroupDoesNotExistException {

@@ -1,5 +1,6 @@
 package oschwa.ledger.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,6 @@ public class NewCommand implements CommandExecutor {
 
         try {
             ledgerGroupRegistry.addGroup((Player)commandSender);
-            commandSender.sendMessage("New Ledger created!");
         } catch (GroupExistsException e) {
             commandSender.sendMessage(e.getMessage());
         }
