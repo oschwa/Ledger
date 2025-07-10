@@ -32,6 +32,12 @@ public class NewCommandTests {
     }
 
     @Test
+    public void newCommandSendsMessageToPlayerTest() {
+        newCommand.onCommand(mockPlayer, mockCommand, "new", new String[]{});
+        verify(mockPlayer).sendMessage("New Ledger created!");
+    }
+
+    @Test
     public void newCommandFailsToAddExistingGroupTest() {
         ledgerGroupRegistry.addGroup(mockPlayer);
         newCommand.onCommand(mockPlayer, mockCommand, "new", new String[]{});
