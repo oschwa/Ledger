@@ -1,5 +1,6 @@
 package oschwa.ledger.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +19,12 @@ public class ManualCommandTest {
     @BeforeEach
     public void setUp() {
         testManual = new String[] {
-                "/ledger man -> manual page",
-                "/ledger new -> create a new Ledger",
-                "/ledger scrap -> delete your existing Ledger",
-                "/ledger add [player name] -> add a player to your Ledger",
-                "/ledger leave -> leave another player's Ledger",
-                "/ledger members -> view names of player in your Ledger"
+                ChatColor.YELLOW + "/ledger:man -> manual page",
+                ChatColor.YELLOW + "/ledger:new -> create a new Ledger",
+                ChatColor.YELLOW + "/ledger:scrap -> delete your existing Ledger",
+                ChatColor.YELLOW + "/ledger:add [player name] -> add a player in the server to your Ledger",
+                ChatColor.YELLOW + "/ledger:leave -> leave another player's Ledger",
+                ChatColor.YELLOW + "/ledger:members -> view names of player in your Ledger"
         };
 
         manCommand = new ManualCommand();
