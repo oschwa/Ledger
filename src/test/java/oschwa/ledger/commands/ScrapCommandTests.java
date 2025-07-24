@@ -1,5 +1,6 @@
 package oschwa.ledger.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,7 @@ public class ScrapCommandTests {
     public void scrapSendsPlayerMessageTest() {
         ledgerGroupRegistry.addGroup(mockPlayer);
         scrapCommand.onCommand(mockPlayer, mockCommand, "scrap", new String[]{});
-        verify(mockPlayer).sendMessage("Ledger scrapped!");
+        verify(mockPlayer).sendMessage(ChatColor.YELLOW + "Ledger scrapped!");
     }
 
     @Test

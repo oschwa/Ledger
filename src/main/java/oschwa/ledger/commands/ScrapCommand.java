@@ -23,7 +23,7 @@ public class ScrapCommand implements CommandExecutor {
 
         try {
             ledgerGroupRegistry.removeGroup((Player)commandSender);
-            commandSender.sendMessage("Ledger scrapped!");
+            commandSender.sendMessage(ChatColor.YELLOW + "Ledger scrapped!");
         } catch (GroupDoesNotExistException e) {
             commandSender.sendMessage(e.getMessage());
             return false;
