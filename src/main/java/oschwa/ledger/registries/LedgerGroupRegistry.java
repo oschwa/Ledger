@@ -39,8 +39,12 @@ public class LedgerGroupRegistry {
     }
 
     public LedgerGroup getGroup(Player player) throws GroupDoesNotExistException {
-        if (!ledgerGroupMap.containsKey(player)) throw new GroupDoesNotExistException(player.getName() +
-                " does not have a registered Ledger");
+        if (!ledgerGroupMap.containsKey(player)) {
+            String errorMessage;
+            if (player == null) errorMessage = "You do not have a registered Ledger.";
+            else errorMessage = player.getName() + " does not have a registered Ledger.";
+            throw new GroupDoesNotExistException(errorMessage);
+        }
         else return ledgerGroupMap.get(player);
     }
 

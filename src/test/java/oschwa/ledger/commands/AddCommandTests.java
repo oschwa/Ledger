@@ -45,6 +45,18 @@ public class AddCommandTests {
     }
 
     @Test
+    public void addCommandFailsWhenNoPlayerIsGivenTest() {
+        ledgerGroupRegistry.addGroup(mockPlayer);
+        addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{});
+        assertFalse(ledgerGroupRegistry.getGroup(mockPlayer).hasMember(mockPlayer2UUID));
+    }
+
+    @Test
+    public void addCommandFailsWhenNoLedgerTest() {
+        assertFalse(addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{}));
+    }
+
+    @Test
     public void addCommandAddsMemberToLedger() {
         ledgerGroupRegistry.addGroup(mockPlayer);
         addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{"playerTwo"});

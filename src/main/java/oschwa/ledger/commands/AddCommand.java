@@ -25,6 +25,8 @@ public class AddCommand implements CommandExecutor {
                              @NotNull String s, @NotNull String @NotNull [] strings) {
         if (!(commandSender instanceof Player)) return false;
 
+        if (strings.length == 0) return false;
+
         Player newPlayer = server.getPlayer(strings[0]);
 
         if (newPlayer == null) return false;
