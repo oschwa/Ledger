@@ -96,6 +96,6 @@ public class AddCommandTests {
     public void addCommandSendsMessageForGroupDoesNotExistExceptionTest() {
         when(mockPlayer.getName()).thenReturn("playerOne");
         addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{"playerTwo"});
-        verify(mockPlayer).sendMessage("playerOne does not have a registered Ledger");
+        verify(mockPlayer).sendMessage("playerOne does not have a registered Ledger.");
     }
 }

@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import oschwa.ledger.exceptions.MemberDoesNotExistException;
 import oschwa.ledger.exceptions.MemberExistsException;
 
+import java.lang.reflect.Member;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,7 +46,7 @@ public class LedgerGroupTest {
     }
 
     @Test
-    public void ledgerGroupAddMemberTest() {
+    public void ledgerGroupAddMemberTest() throws MemberDoesNotExistException {
         when(otherPlayer.getUniqueId()).thenReturn(uuid);
 
         ledgerGroup.addMember(otherPlayer);
@@ -65,7 +66,7 @@ public class LedgerGroupTest {
     }
 
     @Test
-    public void ledgerGroupRemovesMemberTest() {
+    public void ledgerGroupRemovesMemberTest() throws MemberDoesNotExistException {
         when(otherPlayer.getUniqueId()).thenReturn(uuid);
 
         ledgerGroup.addMember(otherPlayer);
@@ -78,7 +79,7 @@ public class LedgerGroupTest {
 
     @Test
     public void ledgerGroupFailsRemovingNonExistingMemberTest() {
-        assertThrows(MemberDoesNotExistException.class, () -> ledgerGroup.removeMember(uuid));
+        assertFalse(ledgerGroup.removeMember(uuid));
     }
 
 }
