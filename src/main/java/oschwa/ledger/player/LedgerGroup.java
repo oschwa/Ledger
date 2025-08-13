@@ -27,20 +27,19 @@ public class LedgerGroup {
         }
     }
 
-    public void removeMember(UUID uuid) {
+    public boolean removeMember(UUID uuid) {
         if (members.containsKey(uuid)) {
             members.remove(uuid);
             --size;
-        } else {
-            throw new MemberDoesNotExistException("Player is not a member of this Ledger");
+            return true;
         }
+        return false;
     }
 
-    public Player getMember(UUID uuid) {
-        if (!members.containsKey(uuid)) {
-            throw new MemberDoesNotExistException("Player is not a member of this Ledger");
-        }
-        return members.get(uuid);
+    public Player getMember(UUID uuid) throws MemberDoesNotExistException {
+        if (members.containsKey(uuid)) {
+            return members.get(uuid);
+        } else throw new MemberDoesNotExistException("Player is not a member of this Ledger");
     }
 
     public boolean hasMember(UUID uuid) {
