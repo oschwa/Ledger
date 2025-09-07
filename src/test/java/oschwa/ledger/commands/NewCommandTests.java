@@ -5,7 +5,6 @@ import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import oschwa.ledger.exceptions.GroupExistsException;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,7 +34,7 @@ public class NewCommandTests {
     @Test
     public void newCommandSendsMessageToPlayerTest() {
         newCommand.onCommand(mockPlayer, mockCommand, "new", new String[]{});
-        verify(mockPlayer).sendMessage(ChatColor.YELLOW + "New Ledger created!");
+        verify(mockPlayer).sendMessage(ChatColor.YELLOW + "[Ledger] New Ledger created.");
     }
 
     @Test
@@ -47,9 +46,8 @@ public class NewCommandTests {
 
     @Test
     public void newCommandSendsMessageUponExceptionTest() {
-        when(mockPlayer.getName()).thenReturn("test");
         ledgerGroupRegistry.addGroup(mockPlayer);
         newCommand.onCommand(mockPlayer, mockCommand, "new", new String[]{});
-        verify(mockPlayer).sendMessage(ChatColor.YELLOW + "test already has an assigned Ledger.");
+        verify(mockPlayer).sendMessage(ChatColor.RED + "[Ledger] You already have a Ledger.");
     }
 }

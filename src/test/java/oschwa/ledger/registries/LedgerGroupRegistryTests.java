@@ -8,12 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import oschwa.ledger.Ledger;
 import oschwa.ledger.exceptions.GroupDoesNotExistException;
-import oschwa.ledger.exceptions.GroupExistsException;
-import oschwa.ledger.exceptions.MemberExistsException;
-
-import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -43,9 +38,7 @@ public class LedgerGroupRegistryTests {
     @Test
     public void noNewLedgerGroupForExistingEntryTest() {
         ledgerGroupRegistry.addGroup(player);
-
-        assertThrows(GroupExistsException.class, () -> ledgerGroupRegistry.addGroup(player));
-        assertEquals(1, ledgerGroupRegistry.getSize());
+        assertFalse(ledgerGroupRegistry.addGroup(player));
     }
 
     @Test

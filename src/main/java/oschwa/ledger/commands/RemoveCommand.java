@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import oschwa.ledger.enums.LedgerErrorMessage;
 import oschwa.ledger.exceptions.MemberDoesNotExistException;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
@@ -24,18 +25,21 @@ public class RemoveCommand implements CommandExecutor {
                              @NotNull String s, @NotNull String @NotNull [] strings) {
         if (!(commandSender instanceof Player)) return false;
 
+        Player player = (Player)commandSender;
+
         if (!ledgerGroupRegistry.containsGroup((Player)commandSender)) {
-            commandSender.sendMessage("You do not have a registered Ledger.");
+            LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);
             return false;
         }
 
-        Player newPlayer = server.getPlayer(strings[0]);
+        Player otherPlayer = server.getPlayer(strings[0]);
 
-        if (!ledgerGroupRegistry.getGroup((Player)commandSender).hasMember(newPlayer.getUniqueId())) {
-            commandSender.sendMessage(newPlayer.getName() + " is not assigned to your Ledger.");
+        if (!ledgerGroupRegistry.getGroup((Player) commandSender)
+                .removeMember(otherPlayer.getUniqueId())) {
+            LedgerErrorMessage.MEMBER_NOT_FOUND.send(player, otherPlayer.getName());
+            return false;
         }
 
-        return ledgerGroupRegistry.getGroup((Player) commandSender)
-                 .removeMember(newPlayer.getUniqueId());
+        return true;
     }
 }

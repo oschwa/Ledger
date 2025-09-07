@@ -9,6 +9,7 @@ import oschwa.ledger.player.LedgerGroup;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public class LedgerGroupRegistry {
@@ -23,22 +24,21 @@ public class LedgerGroupRegistry {
         return ledgerGroupMap.containsKey(player);
     }
 
-    public void addGroup(Player player) throws GroupExistsException {
-        if (ledgerGroupMap.containsKey(player)) throw new GroupExistsException(ChatColor.YELLOW + player.getName()
-                + " already has an assigned Ledger.");
-        else {
+    public boolean addGroup(Player player)  {
+        if (!containsGroup(player)) {
             ledgerGroupMap.put(player, new LedgerGroup(player));
-            player.sendMessage(ChatColor.YELLOW + "New Ledger created!");
+            return true;
         }
+        return false;
     }
 
-    public void removeGroup(Player player) throws GroupDoesNotExistException {
+    public void removeGroup(Player player) {
         if (!ledgerGroupMap.containsKey(player)) throw new GroupDoesNotExistException(player.getName() +
                 " does not have a registered Ledger");
         else ledgerGroupMap.remove(player);
     }
 
-    public LedgerGroup getGroup(Player player) throws GroupDoesNotExistException {
+    public LedgerGroup getGroup(Player player) {
         if (!ledgerGroupMap.containsKey(player)) {
             String errorMessage;
             if (player == null) errorMessage = "You do not have a registered Ledger.";
@@ -46,15 +46,6 @@ public class LedgerGroupRegistry {
             throw new GroupDoesNotExistException(errorMessage);
         }
         else return ledgerGroupMap.get(player);
-    }
-
-    public Player getOwner(UUID uuid) throws MemberDoesNotExistException {
-        for (Map.Entry<Player, LedgerGroup> entry : ledgerGroupMap.entrySet()) {
-            if (entry.getValue().hasMember(uuid)) {
-                return entry.getKey();
-            }
-        }
-        throw new MemberDoesNotExistException("Member does not exist in any registered Ledger");
     }
 
     public int getSize() {

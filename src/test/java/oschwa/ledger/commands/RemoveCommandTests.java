@@ -1,5 +1,6 @@
 package oschwa.ledger.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -59,12 +60,12 @@ public class RemoveCommandTests {
         ledgerGroupRegistry.addGroup(mockPlayer);
         LedgerGroup ledgerGroup = ledgerGroupRegistry.getGroup(mockPlayer);
         assertFalse(removeCommand.onCommand(mockPlayer, mockCommand, "remove", new String[]{"playerTwo"}));
-        verify(mockPlayer).sendMessage("playerTwo is not assigned to your Ledger.");
+        verify(mockPlayer).sendMessage(ChatColor.RED + "[Ledger] playerTwo is not a member of your Ledger.");
     }
 
     @Test
     public void nonExistingGroupFailsRemovalTest() {
         assertFalse(removeCommand.onCommand(mockPlayer, mockCommand, "remove", new String[]{"playerTwo"}));
-        verify(mockPlayer).sendMessage("You do not have a registered Ledger.");
+        verify(mockPlayer).sendMessage(ChatColor.RED + "[Ledger] You do not have an active Ledger.");
     }
 }

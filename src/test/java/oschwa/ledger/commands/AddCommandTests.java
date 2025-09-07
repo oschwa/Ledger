@@ -1,5 +1,6 @@
 package oschwa.ledger.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -49,6 +50,7 @@ public class AddCommandTests {
         ledgerGroupRegistry.addGroup(mockPlayer);
         addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{});
         assertFalse(ledgerGroupRegistry.getGroup(mockPlayer).hasMember(mockPlayer2UUID));
+        verify(mockPlayer).sendMessage(ChatColor.RED + "[Ledger] You must provide a player name.");
     }
 
     @Test
@@ -71,20 +73,28 @@ public class AddCommandTests {
     }
 
     @Test
+    public void addCommandSendsMessageForNonExistentPlayerTest() {
+        ledgerGroupRegistry.addGroup(mockPlayer);
+        addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{"playerThree"});
+        verify(mockPlayer).sendMessage(ChatColor.RED + "[Ledger] playerThree does not exist on this server.");
+    }
+
+    @Test
     public void addCommandSendsMessageTest() {
         ledgerGroupRegistry.addGroup(mockPlayer);
         addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{"playerTwo"});
-        verify(mockPlayer).sendMessage("playerTwo has been added to your Ledger.");
+        verify(mockPlayer).sendMessage(ChatColor.YELLOW + "[Ledger] playerTwo has been added to your Ledger.");
     }
 
     @Test
     public void addCommandSendsMessageForMemberExistsExceptionTest() {
+        when(mockPlayer2.getName()).thenReturn("playerTwo");
 
         ledgerGroupRegistry.addGroup(mockPlayer);
         ledgerGroupRegistry.getGroup(mockPlayer).addMember(mockPlayer2);
 
         addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{"playerTwo"});
-        verify(mockPlayer).sendMessage("playerTwo is already assigned to this Ledger");
+        verify(mockPlayer).sendMessage(ChatColor.RED + "[Ledger] playerTwo is already a member of your Ledger.");
     }
 
     @Test
@@ -93,9 +103,8 @@ public class AddCommandTests {
     }
 
     @Test
-    public void addCommandSendsMessageForGroupDoesNotExistExceptionTest() {
-        when(mockPlayer.getName()).thenReturn("playerOne");
+    public void addCommandSendsMessageForGroupDoesNotExistTest() {
         addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{"playerTwo"});
-        verify(mockPlayer).sendMessage("playerOne does not have a registered Ledger.");
+        verify(mockPlayer).sendMessage(ChatColor.RED + "[Ledger] You do not have an active Ledger.");
     }
 }

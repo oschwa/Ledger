@@ -58,11 +58,8 @@ public class LedgerGroupTest {
     @Test
     public void ledgerGroupDoesNotAddExistingMemberTest() {
         when(otherPlayer.getUniqueId()).thenReturn(uuid);
-
         ledgerGroup.addMember(otherPlayer);
-
-        assertThrows(MemberExistsException.class, () -> ledgerGroup.addMember(otherPlayer));
-        assertEquals(2, ledgerGroup.getSize());
+        assertFalse(ledgerGroup.addMember(otherPlayer));
     }
 
     @Test
@@ -73,8 +70,7 @@ public class LedgerGroupTest {
 
         ledgerGroup.removeMember(uuid);
 
-        assertThrows(MemberDoesNotExistException.class, () -> ledgerGroup.getMember(uuid));
-        assertEquals(1, ledgerGroup.getSize());
+        assertFalse(ledgerGroup.hasMember(uuid));
     }
 
     @Test

@@ -18,13 +18,13 @@ public class LedgerGroup {
         size = 1;
     }
 
-    public void addMember(Player player) {
+    public boolean addMember(Player player) {
         if (!members.containsKey(player.getUniqueId())) {
             members.put(player.getUniqueId(), player);
             ++size;
-        } else {
-            throw new MemberExistsException(player.getName() + " is already assigned to this Ledger");
+            return true;
         }
+        return false;
     }
 
     public boolean removeMember(UUID uuid) {
