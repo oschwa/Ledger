@@ -18,4 +18,4 @@ commands:
     usage: /ledger leave
   add:
     description: add another player to your Ledger configuration.
-    usage: /ledger add [player name]
+    usage: /ledger:add [player name]
