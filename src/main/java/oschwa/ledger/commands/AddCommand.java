@@ -29,36 +29,34 @@ public class AddCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command,
                              @NotNull String s, @NotNull String @NotNull [] strings) {
 
-        //TODO: refactor this.
-
         if (!(commandSender instanceof Player)) return false;
 
         Player player = (Player)commandSender;
 
         if (!ledgerGroupRegistry.containsGroup(player)) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);
-            return false;
         }
 
-        if (strings.length == 0) {
+        else if (strings.length == 0) {
             LedgerErrorMessage.NO_PLAYER_NAME.send(player);
-            return false;
         }
 
-        Optional<Player> otherPlayer = Optional.ofNullable(server.getPlayer(strings[0]));
+        else {
+            Optional<Player> otherPlayer = Optional.ofNullable(server.getPlayer(strings[0]));
 
-        if (otherPlayer.isEmpty()) {
-            LedgerErrorMessage.NO_PLAYER.send(player, strings[0]);
-            return false;
+            if (otherPlayer.isEmpty()) {
+                LedgerErrorMessage.NO_PLAYER.send(player, strings[0]);
+            }
+
+            else if (ledgerGroupRegistry.getGroup(player).hasMember(otherPlayer.get().getUniqueId())) {
+                LedgerErrorMessage.MEMBER_EXISTS.send(player, otherPlayer.get().getName());
+            }
+
+            else {
+                ledgerGroupRegistry.getGroup(player).addMember(otherPlayer.get());
+                LedgerConfigMessage.NEW_MEMBER_ADDED.send(player, otherPlayer.get().getName());
+            }
         }
-
-        if (ledgerGroupRegistry.getGroup(player).hasMember(otherPlayer.get().getUniqueId())) {
-            LedgerErrorMessage.MEMBER_EXISTS.send(player, otherPlayer.get().getName());
-        }
-
-        ledgerGroupRegistry.getGroup(player).addMember(otherPlayer.get());
-
-        LedgerConfigMessage.NEW_MEMBER_ADDED.send(player, otherPlayer.get().getName());
 
         return true;
     }

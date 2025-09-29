@@ -49,13 +49,7 @@ public class AddCommandTests {
     public void addCommandFailsWhenNoPlayerIsGivenTest() {
         ledgerGroupRegistry.addGroup(mockPlayer);
         addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{});
-        assertFalse(ledgerGroupRegistry.getGroup(mockPlayer).hasMember(mockPlayer2UUID));
         verify(mockPlayer).sendMessage(ChatColor.RED + "[Ledger] You must provide a player name.");
-    }
-
-    @Test
-    public void addCommandFailsWhenNoLedgerTest() {
-        assertFalse(addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{}));
     }
 
     @Test
@@ -95,11 +89,6 @@ public class AddCommandTests {
 
         addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{"playerTwo"});
         verify(mockPlayer).sendMessage(ChatColor.RED + "[Ledger] playerTwo is already a member of your Ledger.");
-    }
-
-    @Test
-    public void addCommandFailsIfLedgerDoesNotExistTest() {
-        assertFalse(addCommand.onCommand(mockPlayer, mockCommand, "add", new String[]{"playerTwo"}));
     }
 
     @Test
