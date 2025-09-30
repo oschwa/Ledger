@@ -5,7 +5,8 @@ import org.bukkit.entity.Player;
 
 public enum LedgerConfigMessage {
     NEW_LEDGER(ChatColor.YELLOW + "[Ledger] New Ledger created."),
-    NEW_MEMBER_ADDED(ChatColor.YELLOW + "[Ledger] %s has been added to your Ledger.");
+    NEW_MEMBER_ADDED(ChatColor.YELLOW + "[Ledger] %s has been added to your Ledger."),
+    LEDGER_SCRAPPED(ChatColor.YELLOW + "[Ledger] Ledger scrapped.");
 
     private final String message;
 
