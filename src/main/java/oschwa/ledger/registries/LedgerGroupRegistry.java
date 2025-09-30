@@ -1,7 +1,9 @@
 package oschwa.ledger.registries;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import oschwa.ledger.Ledger;
 import oschwa.ledger.exceptions.GroupDoesNotExistException;
 import oschwa.ledger.exceptions.GroupExistsException;
 import oschwa.ledger.exceptions.MemberDoesNotExistException;
@@ -24,28 +26,25 @@ public class LedgerGroupRegistry {
         return ledgerGroupMap.containsKey(player);
     }
 
-    public boolean addGroup(Player player)  {
-        if (!containsGroup(player)) {
-            ledgerGroupMap.put(player, new LedgerGroup(player));
-            return true;
-        }
-        return false;
+    public void addGroup(Player player)  {
+        ledgerGroupMap.put(player, new LedgerGroup(player));
     }
 
     public void removeGroup(Player player) {
-        if (!ledgerGroupMap.containsKey(player)) throw new GroupDoesNotExistException(player.getName() +
-                " does not have a registered Ledger");
-        else ledgerGroupMap.remove(player);
+        ledgerGroupMap.remove(player);
     }
 
-    public LedgerGroup getGroup(Player player) {
-        if (!ledgerGroupMap.containsKey(player)) {
-            String errorMessage;
-            if (player == null) errorMessage = "You do not have a registered Ledger.";
-            else errorMessage = player.getName() + " does not have a registered Ledger.";
-            throw new GroupDoesNotExistException(errorMessage);
+    public Optional<LedgerGroup> getGroupByOwner(Player player) {
+        return Optional.ofNullable(ledgerGroupMap.get(player));
+    }
+
+    public Optional<LedgerGroup> getGroupByPlayer(Player player) {
+        for (LedgerGroup ledgerGroup : ledgerGroupMap.values()) {
+            if (ledgerGroup.hasMember(player.getUniqueId())) {
+                return Optional.of(ledgerGroup);
+            }
         }
-        else return ledgerGroupMap.get(player);
+        return Optional.empty();
     }
 
     public int getSize() {

@@ -8,10 +8,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import oschwa.ledger.Ledger;
 import oschwa.ledger.exceptions.MemberDoesNotExistException;
 import oschwa.ledger.exceptions.MemberExistsException;
 
 import java.lang.reflect.Member;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,11 +50,9 @@ public class LedgerGroupTest {
     @Test
     public void ledgerGroupAddMemberTest() throws MemberDoesNotExistException {
         when(otherPlayer.getUniqueId()).thenReturn(uuid);
-
         ledgerGroup.addMember(otherPlayer);
-
-        Assertions.assertNotNull(ledgerGroup.getMember(uuid));
-        Assertions.assertEquals(uuid, ledgerGroup.getMember(uuid).getUniqueId());
+        Optional<Player> player = ledgerGroup.getMember(uuid);
+        assertTrue(player.isPresent());
     }
 
     @Test

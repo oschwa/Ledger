@@ -1,14 +1,18 @@
 package oschwa.ledger.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
-import oschwa.ledger.exceptions.MemberDoesNotExistException;
+import oschwa.ledger.player.LedgerGroup;
 import oschwa.ledger.registries.LedgerGroupRegistry;
+
+import java.util.Optional;
 
 public class RemoveCommand implements CommandExecutor {
 
@@ -27,18 +31,29 @@ public class RemoveCommand implements CommandExecutor {
 
         Player player = (Player)commandSender;
 
-        if (!ledgerGroupRegistry.containsGroup((Player)commandSender)) {
+        Optional<LedgerGroup> ledgerGroup =
+                ledgerGroupRegistry.getGroupByOwner(player);
+
+        if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);
             return false;
         }
 
-        Player otherPlayer = server.getPlayer(strings[0]);
+        Optional<Player> otherPlayer =
+                Optional.ofNullable(Bukkit.getPlayer(strings[0]));
 
-        if (!ledgerGroupRegistry.getGroup((Player) commandSender)
-                .removeMember(otherPlayer.getUniqueId())) {
-            LedgerErrorMessage.MEMBER_NOT_FOUND.send(player, otherPlayer.getName());
-            return false;
+        if (otherPlayer.isEmpty()) {
+            LedgerErrorMessage.NO_PLAYER.send(player, strings[0]);
+            return true;
         }
+
+        if (!ledgerGroup.get().hasMember(otherPlayer.get().getUniqueId())) {
+            LedgerErrorMessage.MEMBER_NOT_FOUND.send(player);
+        }
+
+        ledgerGroup.get().removeMember(otherPlayer.get().getUniqueId());
+
+        LedgerConfigMessage.MEMBER_REMOVED.send(player);
 
         return true;
     }

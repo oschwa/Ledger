@@ -1,6 +1,5 @@
 package oschwa.ledger.registries;
 import org.bukkit.entity.Player;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,10 +7,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import oschwa.ledger.exceptions.GroupDoesNotExistException;
-
+import oschwa.ledger.player.LedgerGroup;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class LedgerGroupRegistryTests {
@@ -31,14 +29,11 @@ public class LedgerGroupRegistryTests {
     public void makesNewLedgerGroupTest() {
         ledgerGroupRegistry.addGroup(player);
 
-        Assertions.assertNotNull(ledgerGroupRegistry.getGroup(player));
-        assertEquals(player, ledgerGroupRegistry.getGroup(player).getOwner());
-    }
+        Optional<LedgerGroup> ledgerGroup =
+                ledgerGroupRegistry.getGroupByOwner(player);
 
-    @Test
-    public void noNewLedgerGroupForExistingEntryTest() {
-        ledgerGroupRegistry.addGroup(player);
-        assertFalse(ledgerGroupRegistry.addGroup(player));
+        Assertions.assertNotNull(ledgerGroup.get());
+        assertEquals(player, ledgerGroup.get().getOwner());
     }
 
     @Test
@@ -48,14 +43,5 @@ public class LedgerGroupRegistryTests {
 
         assertFalse(ledgerGroupRegistry.containsGroup(player));
         assertEquals(0, ledgerGroupRegistry.getSize());
-    }
-
-    @Test
-    public void failsRemovingNonExistingLedgerGroupTest() {
-        when(player.getName()).thenReturn("test");
-        assertThrows(GroupDoesNotExistException.class, () -> ledgerGroupRegistry.removeGroup(player));
-        assertFalse(ledgerGroupRegistry.containsGroup(player));
-        assertEquals(0, ledgerGroupRegistry.getSize());
-
     }
 }

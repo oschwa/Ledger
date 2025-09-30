@@ -6,16 +6,22 @@ author: oschwa
 commands:
   new:
     description: create new Ledger configuration.
-    usage: /ledger new
+    usage: /new
   scrap:
     description: remove existing Ledger configuration.
-    usage: /ledger scrap
+    usage: /scrap
   man:
     description: view Ledger manual.
-    usage: /ledger man
+    usage: /man
   leave:
     description: leave another player's Ledger.
-    usage: /ledger leave
+    usage: /leave
   add:
     description: add another player to your Ledger configuration.
-    usage: /ledger:add [player name]
+    usage: /add [player name]
+  list:
+    description: list all players in active Ledger.
+    usage: /list
+  remove:
+    description: remove a player from an active Ledger.
+    usage: /remove [player name]
