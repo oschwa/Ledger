@@ -1,10 +1,7 @@
 package oschwa.ledger;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import oschwa.ledger.commands.AddCommand;
-import oschwa.ledger.commands.ManualCommand;
-import oschwa.ledger.commands.NewCommand;
-import oschwa.ledger.commands.ScrapCommand;
+import oschwa.ledger.commands.*;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
 public class Ledger extends JavaPlugin {
@@ -18,6 +15,7 @@ public class Ledger extends JavaPlugin {
         this.getCommand("new").setExecutor(new NewCommand(ledgerGroupRegistry));
         this.getCommand("scrap").setExecutor(new ScrapCommand(ledgerGroupRegistry));
         this.getCommand("add").setExecutor(new AddCommand(ledgerGroupRegistry));
+        this.getCommand("list").setExecutor(new ListCommand(ledgerGroupRegistry));
     }
 
     @Override

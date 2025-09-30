@@ -12,6 +12,7 @@ import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
 import oschwa.ledger.exceptions.GroupDoesNotExistException;
 import oschwa.ledger.exceptions.MemberExistsException;
+import oschwa.ledger.player.LedgerGroup;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
 import java.util.Optional;
@@ -29,13 +30,16 @@ public class AddCommand implements CommandExecutor {
                              @NotNull String s, @NotNull String @NotNull [] strings) {
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(String.format("[Ledger] Only players can use %s.", command.getName()));
+            LedgerErrorMessage.PLAYER_ONLY.send(commandSender);
             return true;
         }
 
         Player player = (Player) commandSender;
 
-        if (!ledgerGroupRegistry.containsGroup(player)) {
+        Optional<LedgerGroup> ledgerGroup =
+                ledgerGroupRegistry.getGroup(player);
+
+        if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);
             return true;
         }
@@ -45,7 +49,8 @@ public class AddCommand implements CommandExecutor {
             return true;
         }
 
-        Optional<Player> otherPlayer = Optional.ofNullable(Bukkit.getPlayer(strings[0]));
+        Optional<Player> otherPlayer =
+                Optional.ofNullable(Bukkit.getPlayer(strings[0]));
 
         if (otherPlayer.isEmpty()) {
             LedgerErrorMessage.NO_PLAYER.send(player, strings[0]);
@@ -57,12 +62,12 @@ public class AddCommand implements CommandExecutor {
             return true;
         }
 
-        if (ledgerGroupRegistry.getGroup(player).hasMember(otherPlayer.get().getUniqueId())) {
+        if (ledgerGroup.get().hasMember(otherPlayer.get().getUniqueId())) {
             LedgerErrorMessage.MEMBER_EXISTS.send(player, otherPlayer.get().getName());
             return true;
         }
 
-        ledgerGroupRegistry.getGroup(player).addMember(otherPlayer.get());
+        ledgerGroup.get().addMember(otherPlayer.get());
         LedgerConfigMessage.NEW_MEMBER_ADDED.send(player, otherPlayer.get().getName());
 
         return true;

@@ -24,28 +24,16 @@ public class LedgerGroupRegistry {
         return ledgerGroupMap.containsKey(player);
     }
 
-    public boolean addGroup(Player player)  {
-        if (!containsGroup(player)) {
-            ledgerGroupMap.put(player, new LedgerGroup(player));
-            return true;
-        }
-        return false;
+    public void addGroup(Player player)  {
+        ledgerGroupMap.put(player, new LedgerGroup(player));
     }
 
     public void removeGroup(Player player) {
-        if (!ledgerGroupMap.containsKey(player)) throw new GroupDoesNotExistException(player.getName() +
-                " does not have a registered Ledger");
-        else ledgerGroupMap.remove(player);
+        ledgerGroupMap.remove(player);
     }
 
-    public LedgerGroup getGroup(Player player) {
-        if (!ledgerGroupMap.containsKey(player)) {
-            String errorMessage;
-            if (player == null) errorMessage = "You do not have a registered Ledger.";
-            else errorMessage = player.getName() + " does not have a registered Ledger.";
-            throw new GroupDoesNotExistException(errorMessage);
-        }
-        else return ledgerGroupMap.get(player);
+    public Optional<LedgerGroup> getGroup(Player player) {
+        return Optional.ofNullable(ledgerGroupMap.get(player));
     }
 
     public int getSize() {
