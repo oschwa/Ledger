@@ -36,7 +36,7 @@ public class ListCommand implements CommandExecutor {
             return true;
         }
 
-        player.sendMessage(ledgerGroup.get().getMembersList());
+        player.sendMessage(ledgerGroup.get().toString());
 
         return true;
     }

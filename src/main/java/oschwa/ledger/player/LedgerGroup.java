@@ -1,5 +1,6 @@
 package oschwa.ledger.player;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import oschwa.ledger.exceptions.MemberDoesNotExistException;
 import oschwa.ledger.exceptions.MemberExistsException;
@@ -54,19 +55,22 @@ public class LedgerGroup {
         return size;
     }
 
-    public String[] getMembersList() {
-        List<String> membersList = new ArrayList<>();
+    @Override
+    public String toString() {
+        String ledgerString = "";
 
-        membersList.add(owner.getName());
+        ledgerString += ChatColor.YELLOW + "==============================\n";
+        ledgerString += ChatColor.YELLOW + "Members of " + owner.getName() + "'s Ledger\n";
+        ledgerString += ChatColor.YELLOW + "==============================\n";
 
+        ledgerString += ChatColor.YELLOW + "1. " + owner.getName() + "\n";
+
+        int i = 1;
         for (Player player : members.values()) {
-            membersList.add(player.getName());
+            ledgerString += ChatColor.YELLOW + String.valueOf(i) + " " + player.getName() + "\n";
+            i++;
         }
 
-        Collections.sort(membersList);
-
-        membersList.addFirst("Members of " + owner.getName() + "'s Ledger:");
-
-        return membersList.toArray(new String[size]);
+        return ledgerString;
     }
 }
