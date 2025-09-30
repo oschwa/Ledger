@@ -29,7 +29,7 @@ public class ListCommand implements CommandExecutor {
         Player player = (Player) commandSender;
 
         Optional<LedgerGroup> ledgerGroup =
-                ledgerGroupRegistry.getGroup(player);
+                ledgerGroupRegistry.getGroupByPlayer(player);
 
         if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);

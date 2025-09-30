@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
-import oschwa.ledger.exceptions.MemberDoesNotExistException;
 import oschwa.ledger.player.LedgerGroup;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
@@ -33,7 +32,7 @@ public class RemoveCommand implements CommandExecutor {
         Player player = (Player)commandSender;
 
         Optional<LedgerGroup> ledgerGroup =
-                ledgerGroupRegistry.getGroup(player);
+                ledgerGroupRegistry.getGroupByOwner(player);
 
         if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);

@@ -2,10 +2,6 @@ package oschwa.ledger.player;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import oschwa.ledger.exceptions.MemberDoesNotExistException;
-import oschwa.ledger.exceptions.MemberExistsException;
-
-import java.sql.Timestamp;
 import java.util.*;
 
 public class LedgerGroup {
@@ -16,7 +12,7 @@ public class LedgerGroup {
     public LedgerGroup(Player owner) {
         this.owner = owner;
         members = new HashMap<UUID, Player>();
-        size = 1;
+        members.put(owner.getUniqueId(), owner);
     }
 
     public boolean addMember(Player player) {
@@ -37,10 +33,8 @@ public class LedgerGroup {
         return false;
     }
 
-    public Player getMember(UUID uuid) throws MemberDoesNotExistException {
-        if (members.containsKey(uuid)) {
-            return members.get(uuid);
-        } else throw new MemberDoesNotExistException("Player is not a member of this Ledger");
+    public Optional<Player> getMember(UUID uuid) {
+        return Optional.ofNullable(members.get(uuid));
     }
 
     public boolean hasMember(UUID uuid) {
@@ -62,8 +56,6 @@ public class LedgerGroup {
         ledgerString += ChatColor.YELLOW + "==============================\n";
         ledgerString += ChatColor.YELLOW + "Members of " + owner.getName() + "'s Ledger\n";
         ledgerString += ChatColor.YELLOW + "==============================\n";
-
-        ledgerString += ChatColor.YELLOW + "1. " + owner.getName() + "\n";
 
         int i = 1;
         for (Player player : members.values()) {

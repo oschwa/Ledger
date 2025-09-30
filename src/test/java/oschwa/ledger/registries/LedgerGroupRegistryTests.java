@@ -30,7 +30,7 @@ public class LedgerGroupRegistryTests {
         ledgerGroupRegistry.addGroup(player);
 
         Optional<LedgerGroup> ledgerGroup =
-                ledgerGroupRegistry.getGroup(player);
+                ledgerGroupRegistry.getGroupByOwner(player);
 
         Assertions.assertNotNull(ledgerGroup.get());
         assertEquals(player, ledgerGroup.get().getOwner());
