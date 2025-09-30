@@ -29,7 +29,7 @@ public class AddCommand implements CommandExecutor {
                              @NotNull String s, @NotNull String @NotNull [] strings) {
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage("Only players can use this command.");
+            commandSender.sendMessage(String.format("[Ledger] Only players can use %s.", command.getName()));
             return true;
         }
 
