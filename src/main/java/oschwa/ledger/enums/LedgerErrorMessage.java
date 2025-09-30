@@ -1,6 +1,7 @@
 package oschwa.ledger.enums;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public enum LedgerErrorMessage {
@@ -10,7 +11,8 @@ public enum LedgerErrorMessage {
     MEMBER_EXISTS(ChatColor.RED + "[Ledger] %s is already a member of your Ledger."),
     NO_PLAYER(ChatColor.RED + "[Ledger] %s does not exist on this server."),
     LEDGER_EXISTS(ChatColor.RED + "[Ledger] You already have a Ledger."),
-    CANNOT_ADD_OWNER(ChatColor.RED + "[Ledger] You cannot add yourself to your own Ledger.");
+    CANNOT_ADD_OWNER(ChatColor.RED + "[Ledger] You cannot add yourself to your own Ledger."),
+    PLAYER_ONLY("[Ledger] /%s may only be used by players.");
 
     private final String message;
 
@@ -26,7 +28,7 @@ public enum LedgerErrorMessage {
         player.sendMessage(message);
     }
 
-    public void send(Player player, Object... args) {
-        player.sendMessage(String.format(message, args));
+    public void send(CommandSender commandSender, Object... args) {
+        commandSender.sendMessage(String.format(message, args));
     }
 }
