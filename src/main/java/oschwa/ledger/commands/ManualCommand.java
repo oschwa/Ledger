@@ -12,12 +12,15 @@ public class ManualCommand implements CommandExecutor {
 
     public ManualCommand() {
         manual = new String[] {
-                ChatColor.YELLOW + "/ledger:man -> manual page",
-                ChatColor.YELLOW + "/ledger:new -> create a new Ledger",
-                ChatColor.YELLOW + "/ledger:scrap -> delete your existing Ledger",
-                ChatColor.YELLOW + "/ledger:add [player name] -> add a player in the server to your Ledger",
-                ChatColor.YELLOW + "/ledger:leave -> leave another player's Ledger",
-                ChatColor.YELLOW + "/ledger:members -> view names of player in your Ledger"
+                ChatColor.YELLOW + "==============================",
+                ChatColor.YELLOW + "How to use Ledger:",
+                ChatColor.YELLOW + "==============================",
+                ChatColor.YELLOW + "/man " + ChatColor.WHITE + "- manual page for plugin.",
+                ChatColor.YELLOW + "/new " + ChatColor.WHITE + "- create and register a new Ledger.",
+                ChatColor.YELLOW + "/scrap " + ChatColor.WHITE + "- delete your existing Ledger.",
+                ChatColor.YELLOW + "/add [player name] " + ChatColor.WHITE + "- add a player in the server to your Ledger.",
+                ChatColor.YELLOW + "/leave " + ChatColor.WHITE + "- leave another player's Ledger.",
+                ChatColor.YELLOW + "/list " + ChatColor.WHITE + "- view all players in your Ledger."
         };
     }
 
