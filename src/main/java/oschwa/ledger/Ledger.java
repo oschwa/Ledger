@@ -16,6 +16,7 @@ public class Ledger extends JavaPlugin {
         this.getCommand("scrap").setExecutor(new ScrapCommand(ledgerGroupRegistry));
         this.getCommand("add").setExecutor(new AddCommand(ledgerGroupRegistry));
         this.getCommand("list").setExecutor(new ListCommand(ledgerGroupRegistry));
+        this.getCommand("leave").setExecutor(new LeaveCommand(ledgerGroupRegistry));
     }
 
     @Override

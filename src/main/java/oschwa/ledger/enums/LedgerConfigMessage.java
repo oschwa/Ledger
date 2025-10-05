@@ -7,7 +7,8 @@ public enum LedgerConfigMessage {
     NEW_LEDGER(ChatColor.YELLOW + "[Ledger] New Ledger created."),
     NEW_MEMBER_ADDED(ChatColor.YELLOW + "[Ledger] %s has been added to your Ledger."),
     LEDGER_SCRAPPED(ChatColor.YELLOW + "[Ledger] Ledger scrapped."),
-    MEMBER_REMOVED(ChatColor.YELLOW + "[Ledger] %s has been removed from your Ledger");
+    MEMBER_REMOVED(ChatColor.YELLOW + "[Ledger] %s has been removed from your Ledger."),
+    LEFT_LEDGER(ChatColor.YELLOW + "[Ledger] You have left %s's Ledger.");
 
     private final String message;
 

@@ -12,7 +12,8 @@ public enum LedgerErrorMessage {
     NO_PLAYER(ChatColor.RED + "[Ledger] %s does not exist on this server."),
     LEDGER_EXISTS(ChatColor.RED + "[Ledger] You already have a Ledger."),
     CANNOT_ADD_OWNER(ChatColor.RED + "[Ledger] You cannot add yourself to your own Ledger."),
-    PLAYER_ONLY("[Ledger] /%s may only be used by players.");
+    PLAYER_ONLY(ChatColor.RED + "[Ledger] /%s may only be used by players."),
+    NOT_IN_LEDGER(ChatColor.RED + "[Ledger] You are not part of an active Ledger.");
 
     private final String message;
 
