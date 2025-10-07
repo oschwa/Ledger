@@ -38,6 +38,11 @@ public class LeaveCommand implements CommandExecutor {
             return true;
         }
 
+        if (ledgerGroup.get().getOwner().equals(player)) {
+            LedgerErrorMessage.OWNER_CANNOT_LEAVE.send(player);
+            return true;
+        }
+
         ledgerGroup.get().removeMember(player.getUniqueId());
         LedgerConfigMessage.LEFT_LEDGER.send(player,
                 ledgerGroup.get().getOwner().getName());
