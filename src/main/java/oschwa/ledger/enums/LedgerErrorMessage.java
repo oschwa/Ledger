@@ -13,7 +13,8 @@ public enum LedgerErrorMessage {
     LEDGER_EXISTS(ChatColor.RED + "[Ledger] You already have a Ledger."),
     CANNOT_ADD_OWNER(ChatColor.RED + "[Ledger] You cannot add yourself to your own Ledger."),
     PLAYER_ONLY(ChatColor.RED + "[Ledger] /%s may only be used by players."),
-    NOT_IN_LEDGER(ChatColor.RED + "[Ledger] You are not part of an active Ledger.");
+    NOT_IN_LEDGER(ChatColor.RED + "[Ledger] You are not part of an active Ledger."),
+    OWNER_CANNOT_LEAVE(ChatColor.RED + "[Ledger] You cannot leave your own Ledger.");
 
     private final String message;
 
