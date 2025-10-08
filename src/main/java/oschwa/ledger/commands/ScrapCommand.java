@@ -9,7 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
 import oschwa.ledger.exceptions.GroupDoesNotExistException;
+import oschwa.ledger.player.LedgerGroup;
 import oschwa.ledger.registries.LedgerGroupRegistry;
+
+import java.util.Optional;
 
 public class ScrapCommand implements CommandExecutor {
 
@@ -28,8 +31,15 @@ public class ScrapCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        if (!ledgerGroupRegistry.containsGroup(player)) {
+        Optional<LedgerGroup> ledgerGroup =
+                ledgerGroupRegistry.getGroupByOwner(player);
+
+        if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);
+        }
+
+        for (Player member : ledgerGroup.get().getMembers().values()) {
+            LedgerConfigMessage.LEDGER_SCRAP_NOTIF.send(member, player.getName());
         }
 
         ledgerGroupRegistry.removeGroup(player);
