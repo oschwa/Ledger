@@ -25,3 +25,6 @@ commands:
   remove:
     description: remove a player from an active Ledger.
     usage: /remove [player name]
+  new_label:
+    description: add a new label to your Ledger.
+    usage: /new_label [label name]
