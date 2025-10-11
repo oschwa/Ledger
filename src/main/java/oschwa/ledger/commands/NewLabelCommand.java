@@ -1,6 +1,7 @@
 package oschwa.ledger.commands;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,6 +14,8 @@ import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
 import oschwa.ledger.player.LedgerGroup;
 import oschwa.ledger.registries.LedgerGroupRegistry;
+
+import java.util.Objects;
 import java.util.Optional;
 
 public class NewLabelCommand implements CommandExecutor {
@@ -50,12 +53,15 @@ public class NewLabelCommand implements CommandExecutor {
         ItemStack label = new ItemStack(Material.NAME_TAG);
         ItemMeta labelMeta = label.getItemMeta();
 
-        labelMeta.displayName(Component.text(labelName));
+        labelMeta.customName(Component.text(labelName));
         label.setItemMeta(labelMeta);
 
         player.getInventory().addItem(label);
 
-        LedgerConfigMessage.NEW_LABEL.send(player, label.displayName());
+        LedgerConfigMessage.NEW_LABEL.send(player, "'" +
+                MiniMessage.miniMessage().
+                        serialize(Objects.requireNonNull(labelMeta.customName()))
+        + "'");
 
         return true;
     }

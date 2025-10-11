@@ -36,9 +36,10 @@ public class ScrapCommand implements CommandExecutor {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);
         }
 
-        for (Player member : ledgerGroup.get().getMembers().values()) {
-            LedgerConfigMessage.LEDGER_SCRAP_NOTIF.send(member, player.getName());
-        }
+        /*
+        ledgerGroup.get().getMembers().values().forEach(member ->
+                LedgerConfigMessage.LEDGER_SCRAP_NOTIF.send(member, player.getName()));
+         */
 
         ledgerGroupRegistry.removeGroup(player);
 
