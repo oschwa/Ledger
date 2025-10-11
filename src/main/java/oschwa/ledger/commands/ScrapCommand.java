@@ -1,6 +1,5 @@
 package oschwa.ledger.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
-import oschwa.ledger.exceptions.GroupDoesNotExistException;
 import oschwa.ledger.player.LedgerGroup;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
