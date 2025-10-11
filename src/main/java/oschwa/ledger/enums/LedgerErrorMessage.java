@@ -15,7 +15,8 @@ public enum LedgerErrorMessage {
     PLAYER_ONLY(ChatColor.RED + "[Ledger] /%s may only be used by players."),
     NOT_IN_LEDGER(ChatColor.RED + "[Ledger] You are not part of an active Ledger."),
     OWNER_CANNOT_LEAVE(ChatColor.RED + "[Ledger] You cannot leave your own Ledger."),
-    MUST_BE_OWNER_FOR_LABEL(ChatColor.RED + "[Ledger] You must be a Ledger owner to create a new label.");
+    MUST_BE_OWNER_FOR_LABEL(ChatColor.RED + "[Ledger] You must be a Ledger owner to create a new label."),
+    INVALID_LABEL_ARG(ChatColor.RED + "[Ledger] Too many arguments for new label creation.");
 
     private final String message;
 

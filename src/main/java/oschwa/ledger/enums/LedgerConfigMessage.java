@@ -9,7 +9,8 @@ public enum LedgerConfigMessage {
     LEDGER_SCRAPPED(ChatColor.YELLOW + "[Ledger] Ledger scrapped."),
     MEMBER_REMOVED(ChatColor.YELLOW + "[Ledger] %s has been removed from your Ledger."),
     LEFT_LEDGER(ChatColor.YELLOW + "[Ledger] You have left %s's Ledger."),
-    LEDGER_SCRAP_NOTIF(ChatColor.YELLOW + "[Ledger] %s's Ledger has been scrapped, you are no longer part of an active Ledger.");
+    LEDGER_SCRAP_NOTIF(ChatColor.YELLOW + "[Ledger] %s's Ledger has been scrapped, you are no longer part of an active Ledger."),
+    NEW_LABEL(ChatColor.YELLOW + "[Ledger] New label %s created.")
 
     private final String message;
 
