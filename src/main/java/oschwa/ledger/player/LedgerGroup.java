@@ -3,18 +3,26 @@ package oschwa.ledger.player;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import oschwa.ledger.labels.Label;
+
 import java.util.*;
 
 @Getter
 public class LedgerGroup {
     private Player owner;
+    private List<Label> labels;
     private Map<UUID, Player> members;
     private int size;
 
     public LedgerGroup(Player owner) {
         this.owner = owner;
         members = new HashMap<UUID, Player>();
+        labels = new ArrayList<Label>();
         members.put(owner.getUniqueId(), owner);
+    }
+
+    public void addLabel(Label label) {
+        labels.add(label);
     }
 
     public boolean addMember(Player player) {
