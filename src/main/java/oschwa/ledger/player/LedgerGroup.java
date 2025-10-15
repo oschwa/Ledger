@@ -1,13 +1,11 @@
 package oschwa.ledger.player;
 
-import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import oschwa.ledger.labels.Label;
 
 import java.util.*;
 
-@Getter
 public class LedgerGroup {
     private Player owner;
     private List<Label> labels;
@@ -55,8 +53,8 @@ public class LedgerGroup {
         return owner;
     }
 
-    public int getSize() {
-        return size;
+    public Map<UUID, Player> getMembers() {
+        return members;
     }
 
     @Override
