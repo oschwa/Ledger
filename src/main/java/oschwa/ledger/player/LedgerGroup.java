@@ -45,6 +45,13 @@ public class LedgerGroup {
         return Optional.ofNullable(members.get(uuid));
     }
 
+    public Optional<Label> getLabel(String name) {
+        for (Label label : labels) {
+            if (label.getName().equals(name)) return Optional.of(label);
+        }
+        return Optional.empty();
+    }
+
     public boolean hasMember(UUID uuid) {
         return members.containsKey(uuid);
     }
