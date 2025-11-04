@@ -18,7 +18,8 @@ public enum LedgerErrorMessage {
     MUST_BE_OWNER_FOR_LABEL(ChatColor.RED + "[Ledger] You must be a Ledger owner to create a new label."),
     INVALID_LABEL_ARG(ChatColor.RED + "[Ledger] Too many arguments for new label creation."),
     MUST_PROVIDE_LABEL_ARG(ChatColor.RED + "[Ledger] You must provide a label name."),
-    LABEL_DOES_NOT_EXIST(ChatColor.RED + "[Ledger] Label does not exist in this Ledger.");
+    LABEL_DOES_NOT_EXIST(ChatColor.RED + "[Ledger] Label does not exist in this Ledger."),
+    NOT_CHEST(ChatColor.RED + "[Ledger] You can only use labels on Chests");
 
     private final String message;
 

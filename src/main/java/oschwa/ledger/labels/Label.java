@@ -2,8 +2,11 @@ package oschwa.ledger.labels;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+import oschwa.ledger.Ledger;
 
 public class Label {
     private final String name;
@@ -16,6 +19,12 @@ public class Label {
         ItemMeta labelMeta = labelItem.getItemMeta();
 
         labelMeta.customName(Component.text(this.name));
+
+        labelMeta.getPersistentDataContainer()
+                .set(new NamespacedKey(Ledger.getPlugin(),
+                        "ledger_label"), PersistentDataType.STRING,
+                        name);
+
         labelItem.setItemMeta(labelMeta);
 
         this.labelItem = labelItem;
