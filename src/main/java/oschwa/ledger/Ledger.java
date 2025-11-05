@@ -2,6 +2,7 @@ package oschwa.ledger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import oschwa.ledger.commands.*;
+import oschwa.ledger.listeners.LabelListener;
 import oschwa.ledger.registries.LedgerGroupRegistry;
 
 public class Ledger extends JavaPlugin {
@@ -20,6 +21,8 @@ public class Ledger extends JavaPlugin {
         this.getCommand("list").setExecutor(new ListCommand(ledgerGroupRegistry));
         this.getCommand("leave").setExecutor(new LeaveCommand(ledgerGroupRegistry));
         this.getCommand("new_label").setExecutor(new NewLabelCommand(ledgerGroupRegistry));
+
+        getServer().getPluginManager().registerEvents(new LabelListener(), this);
     }
 
     @Override

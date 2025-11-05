@@ -1,5 +1,4 @@
 package oschwa.ledger.listeners;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -33,12 +32,15 @@ public class LabelListener implements Listener {
 
         if (!itemMeta.getPersistentDataContainer().has(key)) return;
 
-        if (!(block.getBlockData().getMaterial() == Material.OAK_LOG)) {
+        if (block.getBlockData().getMaterial() != Material.CHEST) {
             LedgerErrorMessage.NOT_CHEST.send(player);
             return;
         }
 
         LedgerConfigMessage.SUCCESSFUL_ASSIGNMENT.send(player,
                 itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING));
+
+        //  prevent chest GUI from appearing.
+        e.setCancelled(true);
     }
 }
