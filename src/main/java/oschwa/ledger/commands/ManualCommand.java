@@ -20,7 +20,9 @@ public class ManualCommand implements CommandExecutor {
                 ChatColor.YELLOW + "/scrap " + ChatColor.WHITE + "- delete your existing Ledger.",
                 ChatColor.YELLOW + "/add [player name] " + ChatColor.WHITE + "- add a player in the server to your Ledger.",
                 ChatColor.YELLOW + "/leave " + ChatColor.WHITE + "- leave another player's Ledger.",
-                ChatColor.YELLOW + "/list " + ChatColor.WHITE + "- view all players in your Ledger."
+                ChatColor.YELLOW + "/list " + ChatColor.WHITE + "- view all players in your Ledger.",
+                ChatColor.YELLOW + "/new_label " + ChatColor.WHITE + "- create a new label item.",
+                ChatColor.YELLOW + "/get_label " + ChatColor.WHITE + "- place an existing label from your Ledger into your inventory."
         };
     }
 
