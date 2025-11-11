@@ -28,7 +28,9 @@ public class LedgerPlugin extends JavaPlugin {
     }
 
     public void registerListeners() {
-        getServer().getPluginManager().registerEvents(new LabelListener(chestRegistry), this);
+        getServer().getPluginManager()
+                .registerEvents(new LabelListener(ledgerRegistry, chestRegistry),
+                        this);
     }
 
     public void registerCommands() {
@@ -39,5 +41,6 @@ public class LedgerPlugin extends JavaPlugin {
         this.getCommand("list").setExecutor(new ListCommand(ledgerRegistry));
         this.getCommand("leave").setExecutor(new LeaveCommand(ledgerRegistry));
         this.getCommand("new_label").setExecutor(new NewLabelCommand(ledgerRegistry));
+        this.getCommand("label_list").setExecutor(new LabelListCommand(ledgerRegistry));
     }
 }

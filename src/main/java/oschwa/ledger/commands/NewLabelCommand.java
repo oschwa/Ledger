@@ -30,9 +30,9 @@ public class NewLabelCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        Optional<Ledger> ledgerGroup = ledgerRegistry.get(player);
+        Optional<Ledger> ledger = ledgerRegistry.get(player);
 
-        if (ledgerGroup.isEmpty()) {
+        if (ledger.isEmpty()) {
             LedgerErrorMessage.MUST_BE_OWNER_FOR_LABEL.send(player);
             return true;
         }
@@ -46,7 +46,7 @@ public class NewLabelCommand implements CommandExecutor {
 
         Label newLabel = Label.builder(labelName);
 
-        ledgerGroup.ifPresent(group -> group.addLabel(newLabel));
+        ledger.ifPresent(group -> group.addLabel(newLabel));
 
         player.getInventory().addItem(newLabel.getLabelItem());
 

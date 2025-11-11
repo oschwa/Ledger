@@ -1,6 +1,6 @@
 name: Ledger
 version: '1.0-SNAPSHOT'
-main: oschwa.ledger.Ledger
+main: oschwa.ledger.LedgerPlugin
 api-version: '1.21'
 author: oschwa
 commands:
@@ -28,3 +28,6 @@ commands:
   new_label:
     description: add a new label to your Ledger.
     usage: /new_label [label name]
+  label_list:
+    description: list all labels that are active in your Ledger.
+    usage: /label_list

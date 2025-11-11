@@ -3,24 +3,25 @@ package oschwa.ledger.player;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import oschwa.ledger.labels.Label;
+import oschwa.ledger.registries.LabelRegistry;
 
 import java.util.*;
 
 public class Ledger {
     private Player owner;
-    private List<Label> labels;
+    private LabelRegistry labelRegistry;
     private Map<UUID, Player> members;
     private int size;
 
     public Ledger(Player owner) {
         this.owner = owner;
         members = new HashMap<UUID, Player>();
-        labels = new ArrayList<Label>();
+        labelRegistry = new LabelRegistry(this);
         members.put(owner.getUniqueId(), owner);
     }
 
     public void addLabel(Label label) {
-        labels.add(label);
+        labelRegistry.add(label.getName(), label);
     }
 
     public boolean addMember(Player player) {
@@ -46,10 +47,7 @@ public class Ledger {
     }
 
     public Optional<Label> getLabel(String name) {
-        for (Label label : labels) {
-            if (label.getName().equals(name)) return Optional.of(label);
-        }
-        return Optional.empty();
+        return labelRegistry.get(name);
     }
 
     public boolean hasMember(UUID uuid) {
@@ -62,6 +60,10 @@ public class Ledger {
 
     public Map<UUID, Player> getMembers() {
         return members;
+    }
+
+    public String showRegisteredLabels() {
+        return labelRegistry.toString();
     }
 
     @Override

@@ -12,7 +12,8 @@ public enum LedgerConfigMessage {
     LEDGER_SCRAP_NOTIF(ChatColor.YELLOW + "[Ledger] %s's Ledger has been scrapped, you are no longer part of an active Ledger."),
     NEW_LABEL(ChatColor.YELLOW + "[Ledger] New label %s created."),
     LABEL_GET_SUCCESSFUL(ChatColor.YELLOW + "[Ledger] Label '%s' retrieved."),
-    SUCCESSFUL_ASSIGNMENT(ChatColor.YELLOW + "[Ledger] %s successfully assigned.");
+    SUCCESSFUL_ASSIGNMENT(ChatColor.YELLOW + "[Ledger] %s successfully assigned."),
+    NO_LABELS(ChatColor.YELLOW + "[Ledger] No currently registered labels");
 
     private final String message;
 
