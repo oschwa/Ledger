@@ -8,16 +8,16 @@ import org.jetbrains.annotations.NotNull;
 import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
 import oschwa.ledger.labels.Label;
-import oschwa.ledger.player.LedgerGroup;
-import oschwa.ledger.registries.LedgerGroupRegistry;
+import oschwa.ledger.player.Ledger;
+import oschwa.ledger.registries.LedgerRegistry;
 import java.util.Optional;
 
 public class NewLabelCommand implements CommandExecutor {
 
-    private final LedgerGroupRegistry ledgerGroupRegistry;
+    private final LedgerRegistry ledgerRegistry;
 
-    public NewLabelCommand(LedgerGroupRegistry ledgerGroupRegistry) {
-        this.ledgerGroupRegistry = ledgerGroupRegistry;
+    public NewLabelCommand(LedgerRegistry ledgerRegistry) {
+        this.ledgerRegistry = ledgerRegistry;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class NewLabelCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        Optional<LedgerGroup> ledgerGroup = ledgerGroupRegistry.getGroupByOwner(player);
+        Optional<Ledger> ledgerGroup = ledgerRegistry.get(player);
 
         if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.MUST_BE_OWNER_FOR_LABEL.send(player);

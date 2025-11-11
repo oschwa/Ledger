@@ -6,17 +6,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import oschwa.ledger.enums.LedgerErrorMessage;
-import oschwa.ledger.player.LedgerGroup;
-import oschwa.ledger.registries.LedgerGroupRegistry;
+import oschwa.ledger.player.Ledger;
+import oschwa.ledger.registries.LedgerRegistry;
 
 import java.util.Optional;
 
 public class ListCommand implements CommandExecutor {
 
-    private final LedgerGroupRegistry ledgerGroupRegistry;
+    private final LedgerRegistry ledgerRegistry;
 
-    public ListCommand(LedgerGroupRegistry ledgerGroupRegistry) {
-        this.ledgerGroupRegistry = ledgerGroupRegistry;
+    public ListCommand(LedgerRegistry ledgerRegistry) {
+        this.ledgerRegistry = ledgerRegistry;
     }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command,
@@ -28,8 +28,8 @@ public class ListCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        Optional<LedgerGroup> ledgerGroup =
-                ledgerGroupRegistry.getGroupByPlayer(player);
+        Optional<Ledger> ledgerGroup =
+                ledgerRegistry.getGroupByPlayer(player);
 
         if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);

@@ -9,19 +9,19 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
-import oschwa.ledger.player.LedgerGroup;
-import oschwa.ledger.registries.LedgerGroupRegistry;
+import oschwa.ledger.player.Ledger;
+import oschwa.ledger.registries.LedgerRegistry;
 
 import java.util.Optional;
 
 public class RemoveCommand implements CommandExecutor {
 
     private final Server server;
-    private final LedgerGroupRegistry ledgerGroupRegistry;
+    private final LedgerRegistry ledgerRegistry;
 
-    public RemoveCommand(Server server, LedgerGroupRegistry ledgerGroupRegistry) {
+    public RemoveCommand(Server server, LedgerRegistry ledgerRegistry) {
         this.server = server;
-        this.ledgerGroupRegistry = ledgerGroupRegistry;
+        this.ledgerRegistry = ledgerRegistry;
     }
 
     @Override
@@ -31,8 +31,8 @@ public class RemoveCommand implements CommandExecutor {
 
         Player player = (Player)commandSender;
 
-        Optional<LedgerGroup> ledgerGroup =
-                ledgerGroupRegistry.getGroupByOwner(player);
+        Optional<Ledger> ledgerGroup =
+                ledgerRegistry.get(player);
 
         if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);

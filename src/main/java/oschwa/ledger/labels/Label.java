@@ -6,7 +6,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import oschwa.ledger.Ledger;
+import oschwa.ledger.LedgerPlugin;
 
 public class Label {
     private final String name;
@@ -21,7 +21,7 @@ public class Label {
         labelMeta.customName(Component.text(this.name));
 
         labelMeta.getPersistentDataContainer()
-                .set(new NamespacedKey(Ledger.getPlugin(),
+                .set(new NamespacedKey(LedgerPlugin.getPlugin(),
                         "ledger_label"), PersistentDataType.STRING,
                         name);
 

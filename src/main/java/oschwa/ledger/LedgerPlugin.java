@@ -3,24 +3,24 @@ package oschwa.ledger;
 import org.bukkit.plugin.java.JavaPlugin;
 import oschwa.ledger.commands.*;
 import oschwa.ledger.listeners.LabelListener;
-import oschwa.ledger.registries.LedgerGroupRegistry;
+import oschwa.ledger.registries.LedgerRegistry;
 
-public class Ledger extends JavaPlugin {
+public class LedgerPlugin extends JavaPlugin {
 
-    private static Ledger plugin;
-    private final LedgerGroupRegistry ledgerGroupRegistry = new LedgerGroupRegistry();
+    private static LedgerPlugin plugin;
+    private final LedgerRegistry ledgerRegistry = new LedgerRegistry();
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
         this.getCommand("man").setExecutor(new ManualCommand());
-        this.getCommand("new").setExecutor(new NewCommand(ledgerGroupRegistry));
-        this.getCommand("scrap").setExecutor(new ScrapCommand(ledgerGroupRegistry));
-        this.getCommand("add").setExecutor(new AddCommand(ledgerGroupRegistry));
-        this.getCommand("list").setExecutor(new ListCommand(ledgerGroupRegistry));
-        this.getCommand("leave").setExecutor(new LeaveCommand(ledgerGroupRegistry));
-        this.getCommand("new_label").setExecutor(new NewLabelCommand(ledgerGroupRegistry));
+        this.getCommand("new").setExecutor(new NewCommand(ledgerRegistry));
+        this.getCommand("scrap").setExecutor(new ScrapCommand(ledgerRegistry));
+        this.getCommand("add").setExecutor(new AddCommand(ledgerRegistry));
+        this.getCommand("list").setExecutor(new ListCommand(ledgerRegistry));
+        this.getCommand("leave").setExecutor(new LeaveCommand(ledgerRegistry));
+        this.getCommand("new_label").setExecutor(new NewLabelCommand(ledgerRegistry));
 
         getServer().getPluginManager().registerEvents(new LabelListener(), this);
     }
@@ -30,7 +30,7 @@ public class Ledger extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    public static Ledger getPlugin() {
+    public static LedgerPlugin getPlugin() {
         return plugin;
     }
 }

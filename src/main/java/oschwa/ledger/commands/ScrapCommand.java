@@ -7,17 +7,17 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
-import oschwa.ledger.player.LedgerGroup;
-import oschwa.ledger.registries.LedgerGroupRegistry;
+import oschwa.ledger.player.Ledger;
+import oschwa.ledger.registries.LedgerRegistry;
 
 import java.util.Optional;
 
 public class ScrapCommand implements CommandExecutor {
 
-    private final LedgerGroupRegistry ledgerGroupRegistry;
+    private final LedgerRegistry ledgerRegistry;
 
-    public ScrapCommand(LedgerGroupRegistry ledgerGroupRegistry) {
-        this.ledgerGroupRegistry = ledgerGroupRegistry;
+    public ScrapCommand(LedgerRegistry ledgerRegistry) {
+        this.ledgerRegistry = ledgerRegistry;
     }
 
     @Override
@@ -29,8 +29,8 @@ public class ScrapCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        Optional<LedgerGroup> ledgerGroup =
-                ledgerGroupRegistry.getGroupByOwner(player);
+        Optional<Ledger> ledgerGroup =
+                ledgerRegistry.get(player);
 
         if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);
@@ -41,7 +41,7 @@ public class ScrapCommand implements CommandExecutor {
                 LedgerConfigMessage.LEDGER_SCRAP_NOTIF.send(member, player.getName()));
          */
 
-        ledgerGroupRegistry.removeGroup(player);
+        ledgerRegistry.remove(player);
 
         LedgerConfigMessage.LEDGER_SCRAPPED.send(player);
 

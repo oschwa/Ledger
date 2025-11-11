@@ -1,28 +1,24 @@
 package oschwa.ledger.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import oschwa.ledger.Ledger;
 import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
-import oschwa.ledger.exceptions.GroupDoesNotExistException;
-import oschwa.ledger.exceptions.MemberExistsException;
-import oschwa.ledger.player.LedgerGroup;
-import oschwa.ledger.registries.LedgerGroupRegistry;
+import oschwa.ledger.player.Ledger;
+import oschwa.ledger.registries.LedgerRegistry;
 
 import java.util.Optional;
 
 public class AddCommand implements CommandExecutor {
 
-    private final LedgerGroupRegistry ledgerGroupRegistry;
+    private final LedgerRegistry ledgerRegistry;
 
-    public AddCommand(LedgerGroupRegistry ledgerGroupRegistry) {
-        this.ledgerGroupRegistry = ledgerGroupRegistry;
+    public AddCommand(LedgerRegistry ledgerRegistry) {
+        this.ledgerRegistry = ledgerRegistry;
     }
 
     @Override
@@ -36,8 +32,8 @@ public class AddCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        Optional<LedgerGroup> ledgerGroup =
-                ledgerGroupRegistry.getGroupByOwner(player);
+        Optional<Ledger> ledgerGroup =
+                ledgerRegistry.get(player);
 
         if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);

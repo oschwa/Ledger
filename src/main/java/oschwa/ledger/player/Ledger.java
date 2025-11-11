@@ -6,13 +6,13 @@ import oschwa.ledger.labels.Label;
 
 import java.util.*;
 
-public class LedgerGroup {
+public class Ledger {
     private Player owner;
     private List<Label> labels;
     private Map<UUID, Player> members;
     private int size;
 
-    public LedgerGroup(Player owner) {
+    public Ledger(Player owner) {
         this.owner = owner;
         members = new HashMap<UUID, Player>();
         labels = new ArrayList<Label>();

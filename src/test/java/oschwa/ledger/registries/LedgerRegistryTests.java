@@ -7,30 +7,30 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import oschwa.ledger.player.LedgerGroup;
+import oschwa.ledger.player.Ledger;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class LedgerGroupRegistryTests {
+public class LedgerRegistryTests {
 
-    private LedgerGroupRegistry ledgerGroupRegistry;
+    private LedgerRegistry ledgerRegistry;
 
     @Mock
     private Player player;
 
     @BeforeEach
     public void setUp() {
-        ledgerGroupRegistry = new LedgerGroupRegistry();
+        ledgerRegistry = new LedgerRegistry();
         player = Mockito.mock(Player.class);
     }
 
     @Test
     public void makesNewLedgerGroupTest() {
-        ledgerGroupRegistry.add(player, new LedgerGroup(player));
+        ledgerRegistry.add(player, new Ledger(player));
 
-        Optional<LedgerGroup> ledgerGroup =
-                ledgerGroupRegistry.get(player);
+        Optional<Ledger> ledgerGroup =
+                ledgerRegistry.get(player);
 
         Assertions.assertNotNull(ledgerGroup.get());
         assertEquals(player, ledgerGroup.get().getOwner());
@@ -38,10 +38,10 @@ public class LedgerGroupRegistryTests {
 
     @Test
     public void removesLedgerGroupTest() {
-        ledgerGroupRegistry.add(player, new LedgerGroup(player));
-        ledgerGroupRegistry.remove(player);
+        ledgerRegistry.add(player, new Ledger(player));
+        ledgerRegistry.remove(player);
 
-        assertFalse(ledgerGroupRegistry.contains(player));
-        assertEquals(0, ledgerGroupRegistry.getSize());
+        assertFalse(ledgerRegistry.contains(player));
+        assertEquals(0, ledgerRegistry.getSize());
     }
 }
