@@ -8,17 +8,17 @@ import org.jetbrains.annotations.NotNull;
 import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
 import oschwa.ledger.labels.Label;
-import oschwa.ledger.player.LedgerGroup;
-import oschwa.ledger.registries.LedgerGroupRegistry;
+import oschwa.ledger.player.Ledger;
+import oschwa.ledger.registries.LedgerRegistry;
 
 import java.util.Optional;
 
 public class GetLabelCommand implements CommandExecutor {
 
-    private final LedgerGroupRegistry ledgerGroupRegistry;
+    private final LedgerRegistry ledgerRegistry;
 
-    public GetLabelCommand(LedgerGroupRegistry ledgerGroupRegistry) {
-        this.ledgerGroupRegistry = ledgerGroupRegistry;
+    public GetLabelCommand(LedgerRegistry ledgerRegistry) {
+        this.ledgerRegistry = ledgerRegistry;
     }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command,
@@ -30,7 +30,7 @@ public class GetLabelCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        Optional<LedgerGroup> ledgerGroup = ledgerGroupRegistry.getGroupByPlayer(player);
+        Optional<Ledger> ledgerGroup = ledgerRegistry.getGroupByPlayer(player);
 
         if (ledgerGroup.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);

@@ -8,11 +8,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import oschwa.ledger.Ledger;
+import oschwa.ledger.LedgerPlugin;
 import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
+import oschwa.ledger.registries.ChestRegistry;
 
 public class LabelListener implements Listener {
+
+    private final ChestRegistry chestRegistry;
+
+    public LabelListener(ChestRegistry chestRegistry) {
+        this.chestRegistry = chestRegistry;
+    }
 
     @EventHandler
     public void onLabelToChestClick(PlayerInteractEvent e) {
@@ -27,7 +34,7 @@ public class LabelListener implements Listener {
 
         ItemMeta itemMeta = player.getInventory().getItemInMainHand().getItemMeta();
 
-        NamespacedKey key = new NamespacedKey(Ledger.getPlugin(),
+        NamespacedKey key = new NamespacedKey(LedgerPlugin.getPlugin(),
                 "ledger_label");
 
         if (!itemMeta.getPersistentDataContainer().has(key)) return;

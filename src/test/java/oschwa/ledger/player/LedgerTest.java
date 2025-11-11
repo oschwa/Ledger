@@ -8,11 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import oschwa.ledger.Ledger;
-import oschwa.ledger.exceptions.MemberDoesNotExistException;
-import oschwa.ledger.exceptions.MemberExistsException;
-
-import java.lang.reflect.Member;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class LedgerGroupTest {
+public class LedgerTest {
 
     @Mock
     private Player player;
@@ -29,13 +24,13 @@ public class LedgerGroupTest {
 
     private UUID uuid;
 
-    private LedgerGroup ledgerGroup;
+    private Ledger ledger;
 
     @BeforeEach
     public void setUp() {
         player = Mockito.mock(Player.class);
         otherPlayer = Mockito.mock(Player.class);
-        ledgerGroup = new LedgerGroup(player);
+        ledger = new Ledger(player);
         uuid = UUID.randomUUID();
     }
 
@@ -43,39 +38,39 @@ public class LedgerGroupTest {
     public void ledgerGroupWithOneMemberTest() {
         when(player.getUniqueId()).thenReturn(uuid);
 
-        Assertions.assertNotNull(ledgerGroup.getOwner());
-        Assertions.assertEquals(uuid, ledgerGroup.getOwner().getUniqueId());
+        Assertions.assertNotNull(ledger.getOwner());
+        Assertions.assertEquals(uuid, ledger.getOwner().getUniqueId());
     }
 
     @Test
-    public void ledgerGroupAddMemberTest() throws MemberDoesNotExistException {
+    public void ledgerGroupAddMemberTest() {
         when(otherPlayer.getUniqueId()).thenReturn(uuid);
-        ledgerGroup.addMember(otherPlayer);
-        Optional<Player> player = ledgerGroup.getMember(uuid);
+        ledger.addMember(otherPlayer);
+        Optional<Player> player = ledger.getMember(uuid);
         assertTrue(player.isPresent());
     }
 
     @Test
     public void ledgerGroupDoesNotAddExistingMemberTest() {
         when(otherPlayer.getUniqueId()).thenReturn(uuid);
-        ledgerGroup.addMember(otherPlayer);
-        assertFalse(ledgerGroup.addMember(otherPlayer));
+        ledger.addMember(otherPlayer);
+        assertFalse(ledger.addMember(otherPlayer));
     }
 
     @Test
-    public void ledgerGroupRemovesMemberTest() throws MemberDoesNotExistException {
+    public void ledgerGroupRemovesMemberTest() {
         when(otherPlayer.getUniqueId()).thenReturn(uuid);
 
-        ledgerGroup.addMember(otherPlayer);
+        ledger.addMember(otherPlayer);
 
-        ledgerGroup.removeMember(uuid);
+        ledger.removeMember(uuid);
 
-        assertFalse(ledgerGroup.hasMember(uuid));
+        assertFalse(ledger.hasMember(uuid));
     }
 
     @Test
     public void ledgerGroupFailsRemovingNonExistingMemberTest() {
-        assertFalse(ledgerGroup.removeMember(uuid));
+        assertFalse(ledger.removeMember(uuid));
     }
 
 }
