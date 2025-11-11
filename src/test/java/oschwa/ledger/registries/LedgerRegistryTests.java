@@ -27,10 +27,10 @@ public class LedgerGroupRegistryTests {
 
     @Test
     public void makesNewLedgerGroupTest() {
-        ledgerGroupRegistry.addGroup(player);
+        ledgerGroupRegistry.add(player, new LedgerGroup(player));
 
         Optional<LedgerGroup> ledgerGroup =
-                ledgerGroupRegistry.getGroupByOwner(player);
+                ledgerGroupRegistry.get(player);
 
         Assertions.assertNotNull(ledgerGroup.get());
         assertEquals(player, ledgerGroup.get().getOwner());
@@ -38,10 +38,10 @@ public class LedgerGroupRegistryTests {
 
     @Test
     public void removesLedgerGroupTest() {
-        ledgerGroupRegistry.addGroup(player);
-        ledgerGroupRegistry.removeGroup(player);
+        ledgerGroupRegistry.add(player, new LedgerGroup(player));
+        ledgerGroupRegistry.remove(player);
 
-        assertFalse(ledgerGroupRegistry.containsGroup(player));
+        assertFalse(ledgerGroupRegistry.contains(player));
         assertEquals(0, ledgerGroupRegistry.getSize());
     }
 }
