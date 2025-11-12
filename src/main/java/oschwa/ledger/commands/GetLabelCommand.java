@@ -30,9 +30,9 @@ public class GetLabelCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        Optional<Ledger> ledgerGroup = ledgerRegistry.getGroupByPlayer(player);
+        Optional<Ledger> ledger = ledgerRegistry.getGroupByPlayer(player);
 
-        if (ledgerGroup.isEmpty()) {
+        if (ledger.isEmpty()) {
             LedgerErrorMessage.LEDGER_NOT_EXIST.send(player);
             return true;
         }
@@ -44,7 +44,7 @@ public class GetLabelCommand implements CommandExecutor {
 
         String labelName = strings[0];
 
-        Optional<Label> label = ledgerGroup.get().getLabel(labelName);
+        Optional<Label> label = ledger.get().getLabel(labelName);
 
         if (label.isEmpty()) {
             LedgerErrorMessage.LABEL_DOES_NOT_EXIST.send(player);

@@ -2,6 +2,7 @@ package oschwa.ledger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import oschwa.ledger.commands.*;
+import oschwa.ledger.guis.LedgerAssignMenu;
 import oschwa.ledger.listeners.LabelListener;
 import oschwa.ledger.registries.ChestRegistry;
 import oschwa.ledger.registries.LedgerRegistry;
