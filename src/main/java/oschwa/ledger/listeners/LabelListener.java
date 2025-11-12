@@ -13,6 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 import oschwa.ledger.LedgerPlugin;
 import oschwa.ledger.enums.LedgerConfigMessage;
 import oschwa.ledger.enums.LedgerErrorMessage;
+import oschwa.ledger.guis.LedgerAssignMenu;
 import oschwa.ledger.labels.Label;
 import oschwa.ledger.player.Ledger;
 import oschwa.ledger.registries.ChestRegistry;
@@ -75,5 +76,43 @@ public class LabelListener implements Listener {
 
         //  prevent chest GUI from appearing.
         e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onLabelToAirRightClick(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+
+        //  determine if player is registered in any ledger.
+
+        Optional<Ledger> ledger = ledgerRegistry.get(e.getPlayer());
+
+        if (ledger.isEmpty()) return;
+
+        //  determine if the player right-clicked on a chest
+        //  with a ledger label.
+
+        if (!e.getAction().isRightClick()) return;
+
+        ItemMeta itemMeta = player.getInventory().getItemInMainHand().getItemMeta();
+
+        NamespacedKey key = new NamespacedKey(LedgerPlugin.getPlugin(),
+                "ledger_label");
+
+        if (!itemMeta.getPersistentDataContainer().has(key)) return;
+
+        Optional<Label> label = ledger.get()
+                .getLabel(itemMeta.getPersistentDataContainer()
+                        .get(key, PersistentDataType.STRING));
+
+        if (label.isEmpty()) return;
+
+        if (e.getClickedBlock() != null) return;
+
+        //  open item assignment menu
+
+        LedgerAssignMenu ledgerAssignMenu =
+                new LedgerAssignMenu(player, label.get());
+
+        ledgerAssignMenu.showMenu(player);
     }
 }

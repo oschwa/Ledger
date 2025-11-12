@@ -11,6 +11,7 @@ public class LabelRegistry extends Registry<String, Label> {
     public LabelRegistry(Ledger ledger) {
         super();
         this.ledger = ledger;
+
     }
 
     @Override
