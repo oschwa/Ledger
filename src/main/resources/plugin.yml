@@ -31,3 +31,5 @@ commands:
   label_list:
     description: list all labels that are active in your Ledger.
     usage: /label_list
+  dispense:
+    description: dispense items to nearby chests according to Ledger configurations.
