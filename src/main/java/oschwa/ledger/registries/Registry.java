@@ -23,7 +23,7 @@ public abstract class Registry<K, V> {
     }
 
     public Optional<V> get(K k) {
-        return Optional.of(registry.get(k));
+        return Optional.ofNullable(registry.get(k));
     }
 
     public int getSize() {
