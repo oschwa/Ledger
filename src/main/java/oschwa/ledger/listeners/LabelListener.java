@@ -52,7 +52,7 @@ public class LabelListener implements Listener {
         NamespacedKey key = new NamespacedKey(LedgerPlugin.getPlugin(),
                 "ledger_label");
 
-        if (!itemMeta.getPersistentDataContainer().has(key)) return;
+        if (itemMeta == null || !itemMeta.getPersistentDataContainer().has(key)) return;
 
         Optional<Label> label = ledger.get()
                 .getLabel(itemMeta.getPersistentDataContainer()
