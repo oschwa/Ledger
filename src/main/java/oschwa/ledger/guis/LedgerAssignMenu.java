@@ -1,6 +1,7 @@
 package oschwa.ledger.guis;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,8 +32,10 @@ public class LedgerAssignMenu implements Listener {
 
         this.label = label;
 
+        String title = ChatColor.YELLOW + label.getName();
+
         menu = Bukkit.createInventory(player, SIZE,
-                "Assign items to " + label.getName());
+                "Assign items to " + title);
 
         this.prevIndexMap = new HashMap<>();
 
