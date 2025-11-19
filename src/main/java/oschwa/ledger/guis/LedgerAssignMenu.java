@@ -1,6 +1,7 @@
 package oschwa.ledger.guis;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,8 +32,10 @@ public class LedgerAssignMenu implements Listener {
 
         this.label = label;
 
+        String title = ChatColor.YELLOW + label.getName();
+
         menu = Bukkit.createInventory(player, SIZE,
-                "Assign items to " + label.getName());
+                "Assign items to " + title);
 
         this.prevIndexMap = new HashMap<>();
 
@@ -52,6 +55,16 @@ public class LedgerAssignMenu implements Listener {
             }
         }
 
+        //  populate menu with existing items.
+
+        Map<ItemStack, Integer> contents = label.getLabelContents();
+
+        for (Map.Entry<ItemStack, Integer> entry : contents.entrySet()) {
+
+            menu.setItem(entry.getValue(), entry.getKey());
+
+        }
+
         Bukkit.getServer().getPluginManager()
                 .registerEvents(this, LedgerPlugin.getPlugin());
     }
@@ -66,13 +79,33 @@ public class LedgerAssignMenu implements Listener {
 
         ItemStack cursor = e.getCursor();
 
-        if (cursor.getType().isAir()) return;
+        if (!cursor.getType().isItem() || cursor.getType().isAir()) return;
 
-        //  TODO: logic for assigning Material to Label.
+        //  assign material to label.
+
+        if (label.containsItem(cursor)) return;
+
+        label.assignItem(cursor, e.getSlot());
+    }
+
+    @EventHandler
+    public void onItemUnassign(InventoryClickEvent e) {
+
+        if (e.getClickedInventory() != player.getInventory()) return;
+
+        ItemStack cursor = e.getCursor();
+
+        if (!cursor.getType().isItem() || cursor.getType().isAir()) return;
+
+        if (!label.containsItem(cursor)) return;
+
+        label.unassignItem(cursor);
+
     }
 
     @EventHandler
     public void onMenuClose(InventoryCloseEvent e) {
+
         if (!(e.getPlayer() instanceof Player)) return;
 
         if (!(e.getPlayer().equals(this.player))) return;
