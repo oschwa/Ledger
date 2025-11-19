@@ -29,6 +29,7 @@ public class Label {
     private final NamespacedKey configKey;
 
     public Label(String name) {
+
         this.name = name;
 
         this.labelKey = new NamespacedKey(LedgerPlugin.getPlugin(), "ledger_label");
@@ -68,17 +69,16 @@ public class Label {
 
     public boolean containsItem(ItemStack item) {
 
-        Optional<Map<String, String>> config = getMap();
+        Map<String, String> config = getMap();
 
-        return config.map(stringStringMap ->
-                stringStringMap.containsKey(item.getType().name())).orElse(false);
+        return config.containsKey(item.getType().name());
     }
 
     public void assignItem(ItemStack item, Integer slot) {
 
         //  get persistent map.
 
-        Optional<Map<String, String>> config = getMap();
+        Map<String, String> config = getMap();
 
         //  add item.
 
@@ -86,11 +86,24 @@ public class Label {
 
         String materialName = material.name();
 
-        config.get().put(String.valueOf(slot), materialName);
+        config.put(materialName, String.valueOf(slot));
 
         //  assign map as persistent data using Json.
 
-        saveMap(config.get());
+        saveMap(config);
+    }
+
+    public void unassignItem(ItemStack item) {
+
+        //  get persistent map.
+
+        Map<String, String> config = getMap();
+
+        //  remove item.
+
+        config.remove(item.getType().name());
+
+        saveMap(config);
     }
 
     private void saveMap(Map<String, String> config) {
@@ -107,57 +120,57 @@ public class Label {
 
     }
 
-    private Optional<Map<String, String>> getMap() {
+    private Map<String, String> getMap() {
 
         //  get persistent map.
 
         String currMapJson = pdc.get(configKey, PersistentDataType.STRING);
 
-        if (currMapJson == null || currMapJson.isEmpty()) return Optional.empty();
-
         Type type = new TypeToken<Map<String, String>>(){}.getType();
 
-        Map<String, String> config = new Gson().fromJson(currMapJson, type);
-
-        return Optional.ofNullable(config);
+        return new Gson().fromJson(currMapJson, type);
 
     }
 
-    public Map<Integer, ItemStack> getLabelContents() {
+    public Map<ItemStack, Integer> getLabelContents() {
 
         //  get map from data container.
 
-        Optional<Map<String, String>> config = getMap();
-
-        if (config.isEmpty()) return null;
+        Map<String, String> config = getMap();
 
         //  adapt strings arguments to chest slots and Bukkit materials.
 
-        Map<Integer, ItemStack> contents = new HashMap<>();
+        Map<ItemStack, Integer> contents = new HashMap<>();
 
-        for (Map.Entry<String, String> entry : config.get().entrySet()) {
+        for (Map.Entry<String, String> entry : config.entrySet()) {
 
-            int slot = Integer.parseInt(entry.getKey());
+            int slot = Integer.parseInt(entry.getValue());
 
-            Material material = Material.getMaterial(entry.getValue());
+            Material material = Material.getMaterial(entry.getKey());
 
             ItemStack item = new ItemStack(material);
 
-            contents.put(slot, item);
+            contents.put(item, slot);
         }
 
         return contents;
     }
 
     public ItemStack getLabelItem() {
+
         return labelItem;
+
     }
 
     public String getName() {
+
         return name;
+
     }
 
     public static Label builder(String name) {
+
         return new Label(name);
+
     }
 }

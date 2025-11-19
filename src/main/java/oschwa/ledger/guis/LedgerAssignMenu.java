@@ -54,11 +54,11 @@ public class LedgerAssignMenu implements Listener {
 
         //  populate menu with existing items.
 
-        Map<Integer, ItemStack> contents = label.getLabelContents();
+        Map<ItemStack, Integer> contents = label.getLabelContents();
 
-        for (Map.Entry<Integer, ItemStack> entry : contents.entrySet()) {
+        for (Map.Entry<ItemStack, Integer> entry : contents.entrySet()) {
 
-            menu.setItem(entry.getKey(), entry.getValue());
+            menu.setItem(entry.getValue(), entry.getKey());
 
         }
 
@@ -86,7 +86,23 @@ public class LedgerAssignMenu implements Listener {
     }
 
     @EventHandler
+    public void onItemUnassign(InventoryClickEvent e) {
+
+        if (e.getClickedInventory() != player.getInventory()) return;
+
+        ItemStack cursor = e.getCursor();
+
+        if (!cursor.getType().isItem() || cursor.getType().isAir()) return;
+
+        if (!label.containsItem(cursor)) return;
+
+        label.unassignItem(cursor);
+
+    }
+
+    @EventHandler
     public void onMenuClose(InventoryCloseEvent e) {
+
         if (!(e.getPlayer() instanceof Player)) return;
 
         if (!(e.getPlayer().equals(this.player))) return;
