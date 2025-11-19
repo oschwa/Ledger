@@ -52,6 +52,16 @@ public class LedgerAssignMenu implements Listener {
             }
         }
 
+        //  populate menu with existing items.
+
+        Map<Integer, ItemStack> contents = label.getLabelContents();
+
+        for (Map.Entry<Integer, ItemStack> entry : contents.entrySet()) {
+
+            menu.setItem(entry.getKey(), entry.getValue());
+
+        }
+
         Bukkit.getServer().getPluginManager()
                 .registerEvents(this, LedgerPlugin.getPlugin());
     }
@@ -66,9 +76,13 @@ public class LedgerAssignMenu implements Listener {
 
         ItemStack cursor = e.getCursor();
 
-        if (cursor.getType().isAir()) return;
+        if (!cursor.getType().isItem() || cursor.getType().isAir()) return;
 
-        //  TODO: logic for assigning Material to Label.
+        //  assign material to label.
+
+        if (label.containsItem(cursor)) return;
+
+        label.assignItem(cursor, e.getSlot());
     }
 
     @EventHandler

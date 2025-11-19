@@ -3,6 +3,7 @@ package oschwa.ledger.labels;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +11,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import oschwa.ledger.LedgerPlugin;
-import oschwa.ledger.enums.LedgerErrorMessage;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -24,12 +24,16 @@ public class Label {
 
     private final PersistentDataContainer pdc;
 
-    private final NamespacedKey key;
+    private final NamespacedKey labelKey;
+
+    private final NamespacedKey configKey;
 
     public Label(String name) {
         this.name = name;
 
-        this.key = new NamespacedKey(LedgerPlugin.getPlugin(), "label_config");
+        this.labelKey = new NamespacedKey(LedgerPlugin.getPlugin(), "ledger_label");
+
+        this.configKey = new NamespacedKey(LedgerPlugin.getPlugin(), "label_config");
 
         ItemStack labelItem = new ItemStack(Material.NAME_TAG);
 
@@ -43,21 +47,31 @@ public class Label {
 
         this.pdc = pdc;
 
-        pdc.set(key, PersistentDataType.STRING, name);
+        pdc.set(labelKey, PersistentDataType.STRING, name);
 
         //  assign map to as persistent data using Json.
+
+        Type type = new TypeToken<Map<String, String>>(){}.getType();
 
         Map<String, String> config = new HashMap<>();
 
         Gson gson = new Gson();
 
-        String json = gson.toJson(config);
+        String json = gson.toJson(config, type);
 
-        pdc.set(key, PersistentDataType.STRING, json);
+        pdc.set(configKey, PersistentDataType.STRING, json);
 
         labelItem.setItemMeta(labelMeta);
 
         this.labelItem = labelItem;
+    }
+
+    public boolean containsItem(ItemStack item) {
+
+        Optional<Map<String, String>> config = getMap();
+
+        return config.map(stringStringMap ->
+                stringStringMap.containsKey(item.getType().name())).orElse(false);
     }
 
     public void assignItem(ItemStack item, Integer slot) {
@@ -66,15 +80,13 @@ public class Label {
 
         Optional<Map<String, String>> config = getMap();
 
-        if (config.isEmpty()) return;
-
         //  add item.
 
-        Material material = Material.getMaterial(item.getItemMeta().getAsString());
+        Material material = Material.getMaterial(item.getType().name());
 
         String materialName = material.name();
 
-        config.get().put(slot.toString(), materialName);
+        config.get().put(String.valueOf(slot), materialName);
 
         //  assign map as persistent data using Json.
 
@@ -85,11 +97,13 @@ public class Label {
 
         //  save map
 
+        Type type = new TypeToken<Map<String, String>>(){}.getType();
+
         Gson gson = new Gson();
 
-        String newMapJson = gson.toJson(config);
+        String newMapJson = gson.toJson(config, type);
 
-        pdc.set(key, PersistentDataType.STRING, newMapJson);
+        pdc.set(configKey, PersistentDataType.STRING, newMapJson);
 
     }
 
@@ -97,9 +111,9 @@ public class Label {
 
         //  get persistent map.
 
-        String currMapJson = pdc.get(key, PersistentDataType.STRING);
+        String currMapJson = pdc.get(configKey, PersistentDataType.STRING);
 
-        if (currMapJson == null) return Optional.empty();
+        if (currMapJson == null || currMapJson.isEmpty()) return Optional.empty();
 
         Type type = new TypeToken<Map<String, String>>(){}.getType();
 
