@@ -2,6 +2,7 @@ package oschwa.ledger.guis;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -74,6 +75,19 @@ public class LedgerAssignMenu implements Listener {
     }
 
     @EventHandler
+    public void onPlayerInventoryRearrange(InventoryClickEvent e) {
+
+        if (menu == null) return;
+
+        if (e.getClickedInventory() == menu) return;
+
+        ItemStack cursor = e.getCursor();
+
+        prevIndexMap.put(e.getSlot(), cursor);
+
+    }
+
+    @EventHandler
     public void onItemAssign(InventoryClickEvent e) {
         if (e.getClickedInventory() != menu) return;
 
@@ -86,6 +100,8 @@ public class LedgerAssignMenu implements Listener {
         if (label.containsItem(cursor)) return;
 
         label.assignItem(cursor, e.getSlot());
+
+        player.getInventory().setItem();
     }
 
     @EventHandler
@@ -101,8 +117,12 @@ public class LedgerAssignMenu implements Listener {
 
         label.unassignItem(cursor);
 
+        //  prevent item from duplicating in player
+        //  inventory.
+
     }
 
+    /*
     @EventHandler
     public void onMenuClose(InventoryCloseEvent e) {
 
@@ -114,11 +134,12 @@ public class LedgerAssignMenu implements Listener {
 
         Inventory inventory = player.getInventory();
 
-        for (Map.Entry<Integer, ItemStack> entry : prevIndexMap.entrySet()) {
+        for (Map.Entry<ItemStack, Integer> entry : prevIndexMap.entrySet()) {
 
-            inventory.setItem(entry.getKey(), entry.getValue());
+            inventory.setItem(entry.getValue(), entry.getKey());
 
         }
 
     }
+     */
 }
