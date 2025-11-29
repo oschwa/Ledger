@@ -19,7 +19,8 @@ public enum LedgerErrorMessage {
     INVALID_LABEL_ARG(ChatColor.RED + "[Ledger] Invalid argument for new label creation."),
     MUST_PROVIDE_LABEL_ARG(ChatColor.RED + "[Ledger] You must provide a label name."),
     LABEL_DOES_NOT_EXIST(ChatColor.RED + "[Ledger] Label does not exist in this Ledger."),
-    NOT_CHEST(ChatColor.RED + "[Ledger] You can only use labels on Chests");
+    NOT_CHEST(ChatColor.RED + "[Ledger] You can only use labels on Chests"),
+    ITEM_ASSIGNED(ChatColor.RED + "[Ledger] The item you're trying to assign already is already assigned to " + ChatColor.YELLOW + "%s.");
 
     private final String message;
 
