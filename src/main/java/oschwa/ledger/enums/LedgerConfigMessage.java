@@ -13,7 +13,8 @@ public enum LedgerConfigMessage {
     NEW_LABEL(ChatColor.YELLOW + "[Ledger] New label %s created."),
     LABEL_GET_SUCCESSFUL(ChatColor.YELLOW + "[Ledger] Label '%s' retrieved."),
     SUCCESSFUL_ASSIGNMENT(ChatColor.YELLOW + "[Ledger] %s successfully assigned."),
-    NO_LABELS(ChatColor.YELLOW + "[Ledger] No currently registered labels");
+    NO_LABELS(ChatColor.YELLOW + "[Ledger] No currently registered labels"),
+    ITEMS_ADDED(ChatColor.YELLOW + "[Ledger] Materials successfully assigned to '%s'");
 
     private final String message;
 
