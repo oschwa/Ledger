@@ -2,10 +2,14 @@ package oschwa.ledger.guis;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import oschwa.ledger.LedgerPlugin;
 import oschwa.ledger.labels.Label;
 
@@ -73,5 +77,17 @@ public class LedgerAssignMenu implements Listener {
 
     public void showMenu(Player player) {
         player.openInventory(menu);
+    }
+
+    @EventHandler
+    public void onItemClick(InventoryClickEvent event) {
+
+        if (menu == null) return;
+
+        if (event.getClickedInventory() != playerInventory) return;
+
+        if (event.getCurrentItem().getType() == Material.AIR) return;
+
+        menu.setItem(0, event.getCurrentItem());
     }
 }
