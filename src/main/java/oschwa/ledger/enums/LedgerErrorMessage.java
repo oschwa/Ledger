@@ -21,7 +21,7 @@ public enum LedgerErrorMessage {
     LABEL_DOES_NOT_EXIST(ChatColor.RED + "[Ledger] Label does not exist in this Ledger."),
     LABEL_EXISTS(ChatColor.RED + "[Ledger] A '%s' Label already exists in this Ledger"),
     NOT_CHEST(ChatColor.RED + "[Ledger] You can only use labels on Chests"),
-    ITEM_ASSIGNED(ChatColor.RED + "[Ledger] The item you're trying to assign already is already assigned to " + ChatColor.YELLOW + "%s.");
+    ITEM_ASSIGNED(ChatColor.RED + "[Ledger] The item you're trying to assign is already assigned to " + ChatColor.YELLOW + "%s.");
 
     private final String message;
 
