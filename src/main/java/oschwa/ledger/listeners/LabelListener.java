@@ -53,7 +53,7 @@ public class LabelListener implements Listener {
         NamespacedKey key = new NamespacedKey(LedgerPlugin.getPlugin(),
                 "ledger_label");
 
-        if (!itemMeta.getPersistentDataContainer().has(key)) return;
+        if (itemMeta == null || !itemMeta.getPersistentDataContainer().has(key)) return;
 
         Optional<Label> label = ledger.get()
                 .getLabel(itemMeta.getPersistentDataContainer()
@@ -83,6 +83,8 @@ public class LabelListener implements Listener {
     public void onLabelToAirRightClick(PlayerInteractEvent e) {
         Player player = e.getPlayer();
 
+        //  check to see if player has an empty hand.
+
         //  determine if player is registered in any ledger.
 
         Optional<Ledger> ledger = ledgerRegistry.get(e.getPlayer());
@@ -99,7 +101,7 @@ public class LabelListener implements Listener {
         NamespacedKey key = new NamespacedKey(LedgerPlugin.getPlugin(),
                 "ledger_label");
 
-        if (!itemMeta.getPersistentDataContainer().has(key)) return;
+        if (itemMeta == null || !itemMeta.getPersistentDataContainer().has(key)) return;
 
         Optional<Label> label = ledger.get()
                 .getLabel(itemMeta.getPersistentDataContainer()
