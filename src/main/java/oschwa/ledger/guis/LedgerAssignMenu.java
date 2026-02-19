@@ -30,6 +30,8 @@ public class LedgerAssignMenu implements Listener {
 
     private final int SIZE = 36;
 
+    private int currIndex;
+
     public LedgerAssignMenu(Player player, Label label) {
 
         this.player = player;
@@ -44,6 +46,8 @@ public class LedgerAssignMenu implements Listener {
         playerInventory = player.getInventory();
 
         this.prevIndexMap = new HashMap<>();
+
+        currIndex = 0;
 
         //  clone player inventory to repopulate
         //  upon menu close.
@@ -82,12 +86,15 @@ public class LedgerAssignMenu implements Listener {
     @EventHandler
     public void onItemClick(InventoryClickEvent event) {
 
+        event.setCancelled(true);
+
         if (menu == null) return;
 
         if (event.getClickedInventory() != playerInventory) return;
 
         if (event.getCurrentItem().getType() == Material.AIR) return;
 
-        menu.setItem(0, event.getCurrentItem());
+        menu.setItem(currIndex++, event.getCurrentItem());
+
     }
 }
